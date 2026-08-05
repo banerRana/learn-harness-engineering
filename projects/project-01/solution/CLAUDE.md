@@ -1,5 +1,7 @@
 # CLAUDE.md -- Quick Reference for Claude Code
 
+@AGENTS.md
+
 ## Project Overview
 
 This is an Electron + TypeScript + React knowledge base application. The codebase is structured into four layers: main process, preload, renderer, and services.
