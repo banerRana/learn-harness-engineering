@@ -25,6 +25,10 @@ Learn Harness Engineering 是一门专注于 AI 编程智能体工程化落地�
     <h3>资料库</h3>
     <p>开箱即用的模板（AGENTS.md、feature_list.json 等），可直接复制到你自己的代码仓库中。</p>
   </a>
+  <a href="./harness-designs/" class="card">
+    <h3>前沿 Harness 拆解</h3>
+    <p>用本课程的理论框架，逐层拆解 Pi、Claude Code、Codex、DeepSeek 的真实 harness 设计。</p>
+  </a>
 </div>
 
 ## Harness 的核心机制

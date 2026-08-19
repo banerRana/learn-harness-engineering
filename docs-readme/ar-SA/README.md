@@ -619,12 +619,6 @@ learn-harness-engineering/
 
 ---
 
-## تاريخ النجوم
-
-[![Star History Chart](https://api.star-history.com/svg?repos=walkinglabs/learn-harness-engineering&type=date&legend=top-left)](https://www.star-history.com/#walkinglabs/learn-harness-engineering&type=date&legend=top-left)
-
----
-
 ## شكر وتقدير
 
 هذه الدورة مستوحاة وتستمد أفكاراً من [learn-claude-code](https://github.com/shareAI-lab/learn-claude-code) — دليل تدريجي لبناء وكيل من الصفر، من حلقة واحدة إلى تنفيذ مستقل معزول.

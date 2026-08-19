@@ -622,12 +622,6 @@ Unser Team hat auch weitere Kurse erstellt! Schauen Sie sich diese an:
 
 ---
 
-## Star-History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=walkinglabs/learn-harness-engineering&type=date&legend=top-left)](https://www.star-history.com/#walkinglabs/learn-harness-engineering&type=date&legend=top-left)
-
----
-
 ## Danksagungen
 
 Dieser Kurs wurde inspiriert von und bezieht Ideen aus [learn-claude-code](https://github.com/shareAI-lab/learn-claude-code) — einem fortschreitenden Leitfaden zum Aufbau eines Agenten von Grund auf, von einem einzelnen Loop bis zur isolierten autonomen Ausführung.

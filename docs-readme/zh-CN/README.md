@@ -618,12 +618,6 @@ learn-harness-engineering/
 
 ---
 
-## Star 历史
-
-[![Star History Chart](https://api.star-history.com/svg?repos=walkinglabs/learn-harness-engineering&type=date&legend=top-left)](https://www.star-history.com/#walkinglabs/learn-harness-engineering&type=date&legend=top-left)
-
----
-
 ## 致谢
 
 本课程受到 [learn-claude-code](https://github.com/shareAI-lab/learn-claude-code) 的启发并借鉴了其中的理念——那是一份从单循环到隔离自主执行的渐进式代理构建指南。

@@ -52,6 +52,14 @@ const zhSkillItems = [
   { text: "技能总览", link: "/zh/skills/" }
 ];
 
+const zhHarnessDesignItems = [
+  { text: "栏目总览", link: "/zh/harness-designs/" },
+  { text: "拆解 Pi 的 harness 设计", link: "/zh/harness-designs/pi/" },
+  { text: "拆解 Claude Code 的 harness 设计", link: "/zh/harness-designs/claude-code/" },
+  { text: "拆解 Codex 的 harness 设计", link: "/zh/harness-designs/codex/" },
+  { text: "拆解 DeepSeek Harness 的设计", link: "/zh/harness-designs/deepseek/" }
+];
+
 const enLectureItems = [
   { text: "Welcome", link: "/en/" },
   { text: "Why Capable Agents Still Fail", link: "/en/lectures/lecture-01-why-capable-agents-still-fail/" },
@@ -833,6 +841,11 @@ export default withMermaid(
             },
             { text: "技能", link: "/zh/skills/", activeMatch: "^/zh/skills/" },
             {
+              text: "前沿 Harness 拆解",
+              link: "/zh/harness-designs/",
+              activeMatch: "^/zh/harness-designs/",
+            },
+            {
               text: "Try Harness ↗",
               link: "https://github.com/walkinglabs/learn-harness-engineering/blob/main/docs/zh/resources/templates/index.md",
               target: "_blank",
@@ -843,6 +856,9 @@ export default withMermaid(
             "/zh/projects/": [{ text: "项目", items: zhProjectItems }],
             "/zh/resources/": [{ text: "资料库", items: zhResourceItems }],
             "/zh/skills/": [{ text: "技能", items: zhSkillItems }],
+            "/zh/harness-designs/": [
+              { text: "前沿 Harness 拆解", items: zhHarnessDesignItems },
+            ],
             "/zh/": [{ text: "讲义", items: zhLectureItems }],
           },
           outline: {

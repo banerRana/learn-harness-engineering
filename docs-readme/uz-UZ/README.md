@@ -621,12 +621,6 @@ Bizning jamoamiz yana boshqa kurslar ham yaratdi! Ularni koʻrib chiqing:
 
 ---
 
-## Yulduzlar tarixi
-
-[![Star History Chart](https://api.star-history.com/svg?repos=walkinglabs/learn-harness-engineering&type=date&legend=top-left)](https://www.star-history.com/#walkinglabs/learn-harness-engineering&type=date&legend=top-left)
-
----
-
 ## Minnatdorchilik
 
 Ushbu kurs [learn-claude-code](https://github.com/shareAI-lab/learn-claude-code) dan ilhomlangan va undan gʻoyalar olgan — agentni bitta sikldan izolyatsiya qilingan avtonom bajarishgacha noldan qurish boʻyicha progressiv qoʻllanma.
