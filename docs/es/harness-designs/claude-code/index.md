@@ -59,13 +59,13 @@ Los logs de Claude Code son registros completos append-only en history.jsonl. Ju
 
 ## Correspondencia con el marco del curso
 
-| 子系统 | Claude Code 的实现 | 评价 |
+| Subsistema | Implementación de Claude Code | Evaluación |
 | --- | --- | --- |
-| 指令 | 作用域分层（组织/用户/项目/本地）+ 自动记忆 | 分层记忆是标杆实现 |
-| 工具 | 技能 + MCP + 钩子 + 子智能体四类扩展 | 职责划分清晰，是核心亮点 |
-| 环境 | 项目内设置 + settings.json | 靠用户在 CLAUDE.md 里自描述 |
-| 状态 | 追加式会话存储 + 五层压缩 + resume/fork | 极强，长任务连续性的参考实现 |
-| 反馈 | 权限分类器 + PostToolUse 钩子强制检查 | 把"防提前宣告完成"变成确定性机制 |
+| Instrucciones | Ámbitos por capas (organización/usuario/proyecto/local) + auto memory | La memoria por capas es la implementación de referencia |
+| Herramientas | Cuatro tipos de extensión: Skills + MCP + hooks + subagents | La separación clara de responsabilidades es una fortaleza esencial |
+| Entorno | Ajustes dentro del proyecto + settings.json | Depende de que los usuarios describan el entorno en CLAUDE.md |
+| Estado | Almacenamiento append-only de sessions + compaction de cinco niveles + resume/fork | Muy potente; una implementación de referencia para la continuidad de tareas largas |
+| Retroalimentación | Clasificador de permissions + comprobaciones obligatorias mediante hooks PostToolUse | Convierte la «prevención de declaraciones prematuras de finalización» en un mecanismo determinista |
 
 ## Diseños que merece la pena adoptar
 

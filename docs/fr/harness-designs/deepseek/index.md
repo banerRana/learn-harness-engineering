@@ -17,11 +17,11 @@ C’est l’application la plus radicale de l’idée du cours selon laquelle «
 DeepSeek Harness représente une « capacité » par un Service et décompose presque toutes les capacités en trois couches :
 
 ```
-Service Definition（能力定义）
+Service Definition
         ↓
-Service Provider（能力提供者）
+Service Provider
         ↓
-Consumer（能力消费者）
+Consumer
 ```
 
 Prenons le système de fichiers : sous `FS Service` se trouvent plusieurs Providers — Local FS, E2B FS et Remote FS — qui exposent vers le haut une interface uniforme sous forme de file tools. Shell, Subprocess, Sandbox, Web, LLM et SubAgent suivent tous la même structure. Cette architecture à trois couches n’est pas notre interprétation : la section [Capability seams de la documentation d’architecture](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md) la définit ainsi : *a seam is a swappable capability with three roles: a Service Definition declaring the interface, a Service Provider implementing it, and a Consumer using it, commonly a model-facing tool* (une capability seam est une capacité remplaçable qui réunit trois rôles : une Service Definition qui déclare l’interface, un Service Provider qui l’implémente et un Consumer qui l’utilise, généralement un outil exposé au modèle).
@@ -37,7 +37,7 @@ turn/start → claim input → assemble（system prompt / context / tools）
   → agent/pre-step → step/start → LLM request（agent/request）→ llm/stream
   → assistant/message → tool/call
   → tools/pre-execute（permission / guard / policy / hook）
-  → tools/execute → tools/post-execute → tool/result → step/end → 下一轮
+  → tools/execute → tools/post-execute → tool/result → step/end → next turn
 ```
 
 (Le pipeline ci-dessus retranscrit la section [Turn flow de la documentation d’architecture](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md) : `turn/*`, `step/*`, `user/message`, `assistant/*` et `tool/*` sont des événements de session persistants ; `agent/pre-step`, `agent/request`, `llm/stream` et `tools/*` sont des points d’extension que les plugins peuvent écouter.)
@@ -56,13 +56,13 @@ Autrement dit, l’observabilité n’est pas un log ajouté après coup, mais u
 
 ## Correspondance avec le cadre du cours
 
-| 子系统 | DeepSeek Harness 的实现 | 评价 |
+| Sous-système | Implémentation dans DeepSeek Harness | Évaluation |
 | --- | --- | --- |
-| 指令 | 插件化；规则/技能均以插件形态注入 | 极自由，但没有内置的"CLAUDE.md"式惯例 |
-| 工具 | Service Definition → Provider → Consumer 能力接缝 | 工具子系统标准化的极致 |
-| 环境 | 沙箱/FS/Shell 全部可换 Provider（含远程 E2B） | 环境彻底可插拔 |
-| 状态 | append-only Session Event Log + Model-visible means logged | 可观测性是第一性约束 |
-| 反馈 | tools/pre-execute 上的 permission / guard / policy / hook | 反馈机制事件化 |
+| Instructions | Architecture par plugins ; règles et Skills injectées sous forme de plugins | Très grande liberté, mais aucune convention intégrée de type « CLAUDE.md » |
+| Outils | Jonction de capacité Service Definition → Provider → Consumer | Standardisation poussée à l’extrême du sous-système d’outils |
+| Environnement | Providers interchangeables pour le sandbox, FS et Shell, y compris E2B à distance | Environnement entièrement interchangeable |
+| État | append-only Session Event Log + Model-visible means logged | L’observabilité est une contrainte de premier principe |
+| Retour | permission / guard / policy / hook sur tools/pre-execute | Le mécanisme de retour repose sur des événements |
 
 La différence fondamentale entre DeepSeek Harness et les trois autres produits est la suivante : Pi, Claude Code et Codex optimisent tous le harness « à l’intérieur d’un agent particulier » ; DeepSeek Harness, lui, définit le harness comme un **système d’exploitation indépendant du modèle**, l’agent n’étant qu’une application remplaçable exécutée sur cet OS. Le compromis est évident : une plus grande liberté entraîne un coût de configuration plus élevé, revers inhérent à cette conception du « harness comme OS » (la Developer Preview se présente d’ailleurs comme une première expérimentation de mécanismes encore en évolution).
 
@@ -77,9 +77,9 @@ La différence fondamentale entre DeepSeek Harness et les trois autres produits 
 
 Chaque affirmation peut être reliée aux textes originaux ou au code source ci-dessous, afin d’éviter toute reformulation fondée sur de simples impressions :
 
-- **DeepSeek Harness 官网** : définition du produit « Agent = Model + Environment + Tools + State », positionnement Developer Preview et commande `dsh`.<br/>https://deepseek.com/harness
-- **deepseek-ai/deepseek-harness 仓库** (commande `dsh`, licence MIT) :<br/>https://github.com/deepseek-ai/deepseek-harness
-- **架构文档 architecture.md** : source principale de cet article — « Every part of the product is a plugin », « There is no privileged core to patch », event pipeline Turn flow, trois rôles des Capability seams, « Model-visible means logged » et son runtime invariant, Session Event Log append-only, capability seams fs/tools/telemetry et sous-systèmes `ctx.*`.<br/>https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md
-- **架构文档 · 配套子文档** : présentation du noyau Cordis (plugins contribute services, typed events, reversible effects), détail des capability seams et sous-système Session.<br/>https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/cordis-primer.md ｜ https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/capability-seams.md ｜ https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/session.md
+- **Site officiel de DeepSeek Harness** : définition du produit « Agent = Model + Environment + Tools + State », positionnement Developer Preview et commande `dsh`.<br/>https://deepseek.com/harness
+- **Dépôt deepseek-ai/deepseek-harness** (commande `dsh`, licence MIT) :<br/>https://github.com/deepseek-ai/deepseek-harness
+- **Documentation d’architecture architecture.md** : source principale de cet article — « Every part of the product is a plugin », « There is no privileged core to patch », event pipeline Turn flow, trois rôles des Capability seams, « Model-visible means logged » et son runtime invariant, Session Event Log append-only, capability seams fs/tools/telemetry et sous-systèmes `ctx.*`.<br/>https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md
+- **Documentation d’architecture · Documents complémentaires** : présentation du noyau Cordis (plugins contribute services, typed events, reversible effects), détail des capability seams et sous-système Session.<br/>https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/cordis-primer.md ｜ https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/capability-seams.md ｜ https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/session.md
 
 Cours associés : [Leçon 11 · Intégrer l’observabilité au cœur du harness](../lectures/lecture-11-why-observability-belongs-inside-the-harness/) ｜ [Leçon 12 · Laisser un état propre à la fin de chaque session](../lectures/lecture-12-why-every-session-must-leave-a-clean-state/) ｜ [Leçon 02 · Ce qu’est réellement un harness](../lectures/lecture-02-what-a-harness-actually-is/)

@@ -17,11 +17,11 @@ A estrutura tradicional de um coding agent é "LLM + loop de agent fixo + conjun
 O DeepSeek Harness representa "capacidades" por meio de Service e divide quase todas elas em três camadas:
 
 ```
-Service Definition（能力定义）
+Service Definition
         ↓
-Service Provider（能力提供者）
+Service Provider
         ↓
-Consumer（能力消费者）
+Consumer
 ```
 
 Tomando o sistema de arquivos como exemplo: sob `FS Service`, existem vários Provider — Local FS, E2B FS e Remote FS — expostos de maneira uniforme como file tools. Shell, Subprocess, Sandbox, Web, LLM e SubAgent seguem a mesma estrutura. Essa arquitetura de três camadas não é uma interpretação nossa. A seção [Capability seams da documentação de arquitetura](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md) diz: *a seam is a swappable capability with three roles: a Service Definition declaring the interface, a Service Provider implementing it, and a Consumer using it, commonly a model-facing tool* (uma interface de capacidade é uma capacidade substituível com três papéis: um Service Definition que declara a interface, um Service Provider que a implementa e um Consumer que a utiliza, normalmente uma ferramenta exposta ao modelo).
@@ -37,7 +37,7 @@ turn/start → claim input → assemble（system prompt / context / tools）
   → agent/pre-step → step/start → LLM request（agent/request）→ llm/stream
   → assistant/message → tool/call
   → tools/pre-execute（permission / guard / policy / hook）
-  → tools/execute → tools/post-execute → tool/result → step/end → 下一轮
+  → tools/execute → tools/post-execute → tool/result → step/end → next turn
 ```
 
 (O pipeline acima é uma transcrição da seção [Turn flow da documentação de arquitetura](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md): `turn/*`, `step/*`, `user/message`, `assistant/*` e `tool/*` são eventos persistentes de sessão; `agent/pre-step`, `agent/request`, `llm/stream` e `tools/*` são pontos de extensão observáveis por plugins.)

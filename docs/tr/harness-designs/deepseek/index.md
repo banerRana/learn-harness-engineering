@@ -17,11 +17,11 @@ Bu, dersteki "model ağırlıklarının dışındaki her şey harness'tır" ifad
 DeepSeek Harness, "yeteneği" Service ile temsil eder ve neredeyse her yeteneği üç katmana ayırır:
 
 ```
-Service Definition（能力定义）
+Service Definition
         ↓
-Service Provider（能力提供者）
+Service Provider
         ↓
-Consumer（能力消费者）
+Consumer
 ```
 
 Örneğin dosya sisteminde `FS Service` altında Local FS, E2B FS ve Remote FS gibi birden fazla Provider bulunur; üst katmana ise tek biçimli file tools sunulur. Shell, Subprocess, Sandbox, Web, LLM ve SubAgent aynı yapıyı kullanır. Bu üç katmanlı yapı bizim özetimiz değildir. [Mimari belgesinin Capability seams bölümündeki](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md) özgün ifade şöyledir: *a seam is a swappable capability with three roles: a Service Definition declaring the interface, a Service Provider implementing it, and a Consumer using it, commonly a model-facing tool* (yetenek eklemi, üç rolü olan değiştirilebilir bir yetenektir: arayüzü bildiren Service Definition, onu uygulayan Service Provider ve onu kullanan, genellikle modele dönük bir araç olan Consumer).
@@ -37,7 +37,7 @@ turn/start → claim input → assemble（system prompt / context / tools）
   → agent/pre-step → step/start → LLM request（agent/request）→ llm/stream
   → assistant/message → tool/call
   → tools/pre-execute（permission / guard / policy / hook）
-  → tools/execute → tools/post-execute → tool/result → step/end → 下一轮
+  → tools/execute → tools/post-execute → tool/result → step/end → next turn
 ```
 
 (Yukarıdaki hat, [mimari belgesinin Turn flow bölümünün](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md) aktarımıdır: `turn/*`, `step/*`, `user/message`, `assistant/*` ve `tool/*` kalıcı session olaylarıdır; `agent/pre-step`, `agent/request`, `llm/stream` ve `tools/*` ise plugin'lerin dinleyebildiği genişletme noktalarıdır.)
@@ -79,9 +79,9 @@ DeepSeek Harness ile diğer üç ürün arasındaki temel fark şudur: Pi, Claud
 
 Her iddia, izlenime dayalı aktarımı önlemek için aşağıdaki özgün metne veya kaynak koda kadar izlenebilir:
 
-- **DeepSeek Harness 官网**：产品定义 "Agent = Model + Environment + Tools + State"、Developer Preview 定位与 `dsh` 命令。<br/>https://deepseek.com/harness
-- **deepseek-ai/deepseek-harness 仓库**（命令 `dsh`，MIT 协议）：<br/>https://github.com/deepseek-ai/deepseek-harness
-- **架构文档 architecture.md**：本篇最核心的出处——"Every part of the product is a plugin"、"There is no privileged core to patch"、Turn flow 事件流水线、Capability seams 三层角色、"Model-visible means logged" 与运行时不变量、append-only Session Event Log、fs/tools/telemetry 等能力接缝与 `ctx.*` 子系统。<br/>https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md
-- **架构文档 · 配套子文档**：Cordis 内核简介（plugins contribute services, typed events, reversible effects）、能力接缝细节、Session 子系统。<br/>https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/cordis-primer.md ｜ https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/capability-seams.md ｜ https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/session.md
+- **DeepSeek Harness Ana Sayfası**: "Agent = Model + Environment + Tools + State" ürün tanımı, Developer Preview konumlandırması ve `dsh` komutu.<br/>https://deepseek.com/harness
+- **deepseek-ai/deepseek-harness Deposu** (`dsh` komutu, MIT lisansı):<br/>https://github.com/deepseek-ai/deepseek-harness
+- **architecture.md Mimari Belgesi**: Bu yazının en temel kaynağı — "Every part of the product is a plugin", "There is no privileged core to patch", Turn flow olay hattı, Capability seams'in üç rolü, "Model-visible means logged" ve runtime değişmezi, append-only Session Event Log, fs/tools/telemetry gibi yetenek eklemleri ve `ctx.*` alt sistemleri.<br/>https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md
+- **Mimari Belgesi · Tamamlayıcı Alt Belgeler**: Cordis çekirdeğine giriş (plugins contribute services, typed events, reversible effects), yetenek eklemi ayrıntıları ve Session alt sistemi.<br/>https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/cordis-primer.md ｜ https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/capability-seams.md ｜ https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/session.md
 
 İlgili dersler: [Ders 11 · Gözlemlenebilirlik Neden Harness'ın İçinde Yer Almalıdır?](../lectures/lecture-11-why-observability-belongs-inside-the-harness/) ｜ [Ders 12 · Her Session Neden Temiz Bir Durum Bırakmalıdır?](../lectures/lecture-12-why-every-session-must-leave-a-clean-state/) ｜ [Ders 2 · Harness Tam Olarak Nedir?](../lectures/lecture-02-what-a-harness-actually-is/)

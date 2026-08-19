@@ -59,13 +59,13 @@ Claude Codes Logs sind vollständige append-oriented Aufzeichnungen (history.jso
 
 ## Zuordnung zum Kurs-Framework
 
-| 子系统 | Claude Code 的实现 | 评价 |
+| Subsystem | Umsetzung von Claude Code | Bewertung |
 | --- | --- | --- |
-| 指令 | 作用域分层（组织/用户/项目/本地）+ 自动记忆 | 分层记忆是标杆实现 |
-| 工具 | 技能 + MCP + 钩子 + 子智能体四类扩展 | 职责划分清晰，是核心亮点 |
-| 环境 | 项目内设置 + settings.json | 靠用户在 CLAUDE.md 里自描述 |
-| 状态 | 追加式会话存储 + 五层压缩 + resume/fork | 极强，长任务连续性的参考实现 |
-| 反馈 | 权限分类器 + PostToolUse 钩子强制检查 | 把"防提前宣告完成"变成确定性机制 |
+| Anweisungen | Schichtung nach Geltungsbereich (Organisation/Benutzer/Projekt/lokal) + automatisches Memory | Geschichtetes Memory ist eine Referenzimplementierung |
+| Werkzeuge | Skills + MCP + hooks + subagents als vier Erweiterungstypen | Klare Trennung der Verantwortlichkeiten; ein zentraler Pluspunkt |
+| Umgebung | Projekteinstellungen + settings.json | Basiert auf der Selbstbeschreibung des Benutzers in CLAUDE.md |
+| Zustand | Append-only session-Speicher + fünfstufige compaction + resume/fork | Sehr stark; eine Referenzimplementierung für die Kontinuität lang laufender Aufgaben |
+| Feedback | Permission-Klassifikator + durch PostToolUse-hooks erzwungene Prüfungen | Macht die Verhinderung verfrühter Fertigmeldungen zu einem deterministischen Mechanismus |
 
 ## Übernehmenswerte Designs
 

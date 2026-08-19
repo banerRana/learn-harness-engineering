@@ -17,11 +17,11 @@
 يستخدم DeepSeek Harness مفهوم Service للتعبير عن «القدرة»، ويقسّم كل قدرة تقريبًا إلى ثلاث طبقات:
 
 ```
-Service Definition（能力定义）
+Service Definition
         ↓
-Service Provider（能力提供者）
+Service Provider
         ↓
-Consumer（能力消费者）
+Consumer
 ```
 
 لنأخذ نظام الملفات مثالًا: يندرج تحت `FS Service` عدد من Provider مثل Local FS وE2B FS وRemote FS، وتُعرَض جميعها للأعلى بصورة موحّدة على هيئة file tools. وتتبع Shell وSubprocess وSandbox وWeb وLLM وSubAgent البنية نفسها. وهذه البنية الثلاثية ليست خلاصة من عندنا—بل تذكر [وثيقة البنية · Capability seams](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md) حرفيًا: *فاصل القدرة هو قدرة قابلة للاستبدال ذات ثلاثة أدوار: Service Definition يعلن الواجهة، وService Provider ينفذها، وConsumer يستخدمها، وغالبًا ما يكون الأخير أداة ظاهرة للنموذج*.
@@ -37,7 +37,7 @@ turn/start → claim input → assemble（system prompt / context / tools）
   → agent/pre-step → step/start → LLM request（agent/request）→ llm/stream
   → assistant/message → tool/call
   → tools/pre-execute（permission / guard / policy / hook）
-  → tools/execute → tools/post-execute → tool/result → step/end → 下一轮
+  → tools/execute → tools/post-execute → tool/result → step/end → next turn
 ```
 
 (المسار أعلاه إعادة صياغة لقسم [وثيقة البنية · Turn flow](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md): تمثل `turn/*` و`step/*` و`user/message` و`assistant/*` و`tool/*` أحداث جلسة دائمة، بينما تمثل `agent/pre-step` و`agent/request` و`llm/stream` و`tools/*` نقاط توسعة يمكن للإضافات الاستماع إليها.)

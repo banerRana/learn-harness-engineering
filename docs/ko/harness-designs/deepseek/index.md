@@ -17,11 +17,11 @@
 DeepSeek Harness는 "능력"을 Service로 표현하며, 거의 모든 능력을 세 계층으로 나눕니다.
 
 ```
-Service Definition（能力定义）
+Service Definition
         ↓
-Service Provider（能力提供者）
+Service Provider
         ↓
-Consumer（能力消费者）
+Consumer
 ```
 
 파일 시스템을 예로 들면, `FS Service` 아래에 Local FS, E2B FS, Remote FS 등의 Provider가 있고 위쪽에는 통일된 file tools로 노출됩니다. Shell, Subprocess, Sandbox, Web, LLM, SubAgent도 같은 구조를 사용합니다. 이 3계층 구조는 여기서 요약한 것이 아닙니다. [아키텍처 문서 · Capability seams](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md)의 원문은 *a seam is a swappable capability with three roles: a Service Definition declaring the interface, a Service Provider implementing it, and a Consumer using it, commonly a model-facing tool*(능력 접합부는 교체 가능한 능력으로서 세 가지 역할, 즉 인터페이스를 선언하는 Service Definition, 이를 구현하는 Service Provider, 이를 사용하는 Consumer로 구성되며, Consumer는 일반적으로 모델에 노출되는 도구임)입니다.
@@ -37,7 +37,7 @@ turn/start → claim input → assemble（system prompt / context / tools）
   → agent/pre-step → step/start → LLM request（agent/request）→ llm/stream
   → assistant/message → tool/call
   → tools/pre-execute（permission / guard / policy / hook）
-  → tools/execute → tools/post-execute → tool/result → step/end → 下一轮
+  → tools/execute → tools/post-execute → tool/result → step/end → next turn
 ```
 
 (위 파이프라인은 [아키텍처 문서 · Turn flow](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md) 섹션을 옮긴 것입니다. `turn/*`, `step/*`, `user/message`, `assistant/*`, `tool/*`는 영속화되는 session 이벤트이며, `agent/pre-step`, `agent/request`, `llm/stream`, `tools/*`는 plugin이 수신할 수 있는 확장 지점입니다.)

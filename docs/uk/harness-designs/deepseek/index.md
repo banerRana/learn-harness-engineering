@@ -17,11 +17,11 @@
 У DeepSeek Harness поняття Service позначає «можливість», а майже кожну можливість поділено на три рівні:
 
 ```
-Service Definition（能力定义）
+Service Definition
         ↓
-Service Provider（能力提供者）
+Service Provider
         ↓
-Consumer（能力消费者）
+Consumer
 ```
 
 Візьмімо файлову систему: під `FS Service` працюють кілька Provider — Local FS, E2B FS і Remote FS, а назовні вони надають єдиний інтерфейс file tools. Shell, Subprocess, Sandbox, Web, LLM і SubAgent мають таку саму структуру. Цю трирівневу схему не виведено в нашому аналізі — в оригіналі розділу [архітектурної документації · Capability seams](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md) прямо сказано: *a seam is a swappable capability with three roles: a Service Definition declaring the interface, a Service Provider implementing it, and a Consumer using it, commonly a model-facing tool* (шов можливості — замінна можливість із трьома ролями: Service Definition оголошує інтерфейс, Service Provider реалізує його, а Consumer використовує; останнім зазвичай є інструмент, доступний моделі).
@@ -37,7 +37,7 @@ turn/start → claim input → assemble（system prompt / context / tools）
   → agent/pre-step → step/start → LLM request（agent/request）→ llm/stream
   → assistant/message → tool/call
   → tools/pre-execute（permission / guard / policy / hook）
-  → tools/execute → tools/post-execute → tool/result → step/end → 下一轮
+  → tools/execute → tools/post-execute → tool/result → step/end → next turn
 ```
 
 (Наведений вище конвеєр — це переказ розділу [архітектурної документації · Turn flow](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md): `turn/*`, `step/*`, `user/message`, `assistant/*` і `tool/*` є збережуваними подіями сесії, а `agent/pre-step`, `agent/request`, `llm/stream` і `tools/*` — точками розширення, які можуть прослуховувати плагіни.)

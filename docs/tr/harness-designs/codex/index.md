@@ -69,10 +69,10 @@ Codex ile Claude Code karşılaştırması ilginçtir: Claude Code "ekleme" yakl
 
 Her iddia, izlenime dayalı aktarımı önlemek için aşağıdaki özgün metne veya kaynak koda kadar izlenebilir:
 
-- **OpenAI《Harness Engineering》**：AGENTS.md 目录页与约 100 行建议、executive invariants / don't micromanage、worktree 隔离 + 可观测性栈、验证命令入规范、上百万行产品案例、审批策略与 plan mode。本篇所有核心论断的主要出处。<br/>https://openai.com/index/harness-engineering/
-- **OpenAI 官方《AGENTS.md》规范**（AGENTS.md 作为跨工具约定的标准）：<br/>https://openai.com/index/agents-md/
-- **Codex CLI 开源仓库**（Rust 实现的单体二进制）：<br/>https://github.com/openai/codex
-- **Context Engineering for Codex CLI**（社区）：Write-Select-Compress-Isolate 框架、`/compact` 与 `compact_prompt`、`spawn_agent` / `wait_agent` 子智能体与 `.codex/agents/*.toml` 配置。<br/>https://codex.danielvaughan.com/2026/06/10/context-engineering-codex-cli-write-select-compress-isolate-june-2026/
-- **codex-harness-internals**（社区源码分析）：`build_environment_update_item` 增量环境上下文等实现细节。<br/>https://github.com/AlexKenbo/codex-harness-internals
+- **OpenAI, “Harness Engineering”**: AGENTS.md'nin dizin sayfası olması ve yaklaşık 100 satır önerisi, executive invariants / don't micromanage, worktree yalıtımı + gözlemlenebilirlik yığını, doğrulama komutlarının kurallara eklenmesi, bir milyon satırı aşan ürün örneği, onay politikaları ve plan mode. Bu yazıdaki tüm temel iddiaların başlıca kaynağı.<br/>https://openai.com/index/harness-engineering/
+- **OpenAI'ın Resmî “AGENTS.md” Standardı** (AGENTS.md'nin araçlar arası bir convention standardı olması):<br/>https://openai.com/index/agents-md/
+- **Codex CLI Açık Kaynak Deposu** (Rust ile yazılmış monolitik ikili dosya):<br/>https://github.com/openai/codex
+- **Context Engineering for Codex CLI** (topluluk): Write-Select-Compress-Isolate çerçevesi, `/compact` ve `compact_prompt`, `spawn_agent` / `wait_agent` subagent'ları ve `.codex/agents/*.toml` yapılandırması.<br/>https://codex.danielvaughan.com/2026/06/10/context-engineering-codex-cli-write-select-compress-isolate-june-2026/
+- **codex-harness-internals** (topluluk kaynak kod analizi): `build_environment_update_item` ile artımlı ortam bağlamı gibi uygulama ayrıntıları.<br/>https://github.com/AlexKenbo/codex-harness-internals
 
 İlgili dersler: [Ders 3 · Kod Deposu Neden Tek Gerçeklik Kaynağı Olmalıdır?](../lectures/lecture-03-why-the-repository-must-become-the-system-of-record/) ｜ [Ders 4 · Talimatları Farklı Dosyalara Ayırmak](../lectures/lecture-04-why-one-giant-instruction-file-fails/) ｜ [Ders 7 · Agent'ın Her Görevi İçin Net Sınırlar Çizmek](../lectures/lecture-07-why-agents-overreach-and-under-finish/)

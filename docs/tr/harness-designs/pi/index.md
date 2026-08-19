@@ -84,11 +84,11 @@ Pi'nin tercihi Claude Code / Codex ile belirgin bir karşıtlık oluşturur: Cla
 
 Her iddia, izlenime dayalı aktarımı önlemek için aşağıdaki özgün metne veya kaynak koda kadar izlenebilir:
 
-- **pi.dev 官网**：定位原话 "Ask Pi to build what you want, or install a package that does it your way"、四层可定制物、会话树（"sessions are stored as trees"，`/tree`、单文件保存、导出 HTML / 分享 gist）。<br/>https://pi.dev/
-- **pi.dev 官方文档 · Sessions**：压缩可插拔（topic-based / code-aware / 换摘要模型）、自动压缩与动态上下文注入的机制描述。<br/>https://pi.dev/docs/usage/sessions
-- **pi.dev 官方文档 · Extensions**：扩展可在每轮推理前注入消息、过滤历史、做 RAG、构建长期记忆。<br/>https://pi.dev/docs/usage/extensions
-- **pi.dev 官方文档 · Project Context**：SYSTEM.md 的 replace / append 语义。<br/>https://pi.dev/docs/usage/project-context
-- **Pi Coding Agent 源码 README**（badlogic/pi-mono）：AGENTS.md 三级加载顺序（全局 → 父目录 → 当前目录）、`/compact` 与自动压缩的触发条件与 2 万 token 切割点、Skills 按需加载与 Agent Skills 标准、Hooks 生命周期与四个官方示例用途、Programmatic Usage（JSON / RPC / SDK）。<br/>https://github.com/badlogic/pi-mono/blob/main/packages/coding-agent/README.md
-- **pi-agent-harness 社区仓库**：skill-router / session-summary / extract-patterns / telemetry 扩展，VISION.md / PROGRESS.md / LESSONS.md / STANDARDS.md 文件体系。<br/>https://github.com/LabidySabidy/pi-agent-harness
+- **pi.dev Ana Sayfası**: Özgün konumlandırma ifadesi "Ask Pi to build what you want, or install a package that does it your way", dört özelleştirilebilir katman ve session ağacı ("sessions are stored as trees", `/tree`, tek dosyada saklama, HTML olarak dışa aktarma / gist ile paylaşma).<br/>https://pi.dev/
+- **pi.dev Resmî Belgeleri · Sessions**: Takılabilir compaction (topic-based / code-aware / farklı bir özetleme modeli kullanma), otomatik compaction ve dinamik bağlam ekleme mekanizmalarının açıklaması.<br/>https://pi.dev/docs/usage/sessions
+- **pi.dev Resmî Belgeleri · Extensions**: Extensions'ın her muhakeme turundan önce mesaj eklemesi, geçmişi filtrelemesi, RAG uygulaması ve uzun vadeli bellek oluşturması.<br/>https://pi.dev/docs/usage/extensions
+- **pi.dev Resmî Belgeleri · Project Context**: SYSTEM.md'nin replace / append semantiği.<br/>https://pi.dev/docs/usage/project-context
+- **Pi Coding Agent Kaynak Kod README Dosyası** (badlogic/pi-mono): AGENTS.md'nin üç aşamalı yükleme sırası (genel → üst dizin → geçerli dizin), `/compact` ve otomatik compaction'ın tetiklenme koşulları ile 20 bin token'lık bölme noktası, Skills'in gerektiğinde yüklenmesi ve Agent Skills standardı, Hooks yaşam döngüsü ve dört resmî örnek kullanım alanı, Programmatic Usage (JSON / RPC / SDK).<br/>https://github.com/badlogic/pi-mono/blob/main/packages/coding-agent/README.md
+- **pi-agent-harness Topluluk Deposu**: skill-router / session-summary / extract-patterns / telemetry Extensions'ı ve VISION.md / PROGRESS.md / LESSONS.md / STANDARDS.md dosya sistemi.<br/>https://github.com/LabidySabidy/pi-agent-harness
 
 İlgili dersler: [Ders 2 · Harness Tam Olarak Nedir?](../lectures/lecture-02-what-a-harness-actually-is/) ｜ [Ders 5 · Uzun Süren Görevler Neden Bağlam Sürekliliğini Kaybeder?](../lectures/lecture-05-why-long-running-tasks-lose-continuity/) ｜ [Ders 13 · Elle Yürütmeden Otomatik Döngüye](../lectures/lecture-13-loop-engineering/)

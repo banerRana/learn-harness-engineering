@@ -17,11 +17,11 @@ Cấu trúc của coding agent truyền thống là “LLM + vòng lặp agent c
 DeepSeek Harness dùng Service để biểu diễn “năng lực”, và gần như mọi năng lực đều được chia thành ba tầng:
 
 ```
-Service Definition（能力定义）
+Service Definition
         ↓
-Service Provider（能力提供者）
+Service Provider
         ↓
-Consumer（能力消费者）
+Consumer
 ```
 
 Lấy hệ thống tệp làm ví dụ: bên dưới `FS Service` có nhiều Provider như Local FS, E2B FS, Remote FS, còn phía trên cung cấp thống nhất thành file tools. Shell, Subprocess, Sandbox, Web, LLM và SubAgent đều dùng cùng một cấu trúc. Cấu trúc ba tầng này không phải do chúng ta tự tổng kết — nguyên văn trong [tài liệu kiến trúc · Capability seams](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md): *a seam is a swappable capability with three roles: a Service Definition declaring the interface, a Service Provider implementing it, and a Consumer using it, commonly a model-facing tool* (đường nối năng lực = một năng lực có thể thay thế với ba vai trò: Service Definition khai báo giao diện, Service Provider triển khai giao diện và Consumer sử dụng nó; Consumer thường là công cụ hướng tới mô hình).
@@ -37,7 +37,7 @@ turn/start → claim input → assemble（system prompt / context / tools）
   → agent/pre-step → step/start → LLM request（agent/request）→ llm/stream
   → assistant/message → tool/call
   → tools/pre-execute（permission / guard / policy / hook）
-  → tools/execute → tools/post-execute → tool/result → step/end → 下一轮
+  → tools/execute → tools/post-execute → tool/result → step/end → next turn
 ```
 
 (Pipeline trên là bản chuyển lại từ phần [tài liệu kiến trúc · Turn flow](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md): `turn/*`, `step/*`, `user/message`, `assistant/*`, `tool/*` là các sự kiện phiên được duy trì; `agent/pre-step`, `agent/request`, `llm/stream`, `tools/*` là các điểm mở rộng mà plugin có thể lắng nghe.)

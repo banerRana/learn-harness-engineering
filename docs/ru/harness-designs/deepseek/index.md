@@ -17,11 +17,11 @@
 DeepSeek Harness представляет «возможность» с помощью Service и разделяет почти каждую возможность на три уровня:
 
 ```
-Service Definition（能力定义）
+Service Definition
         ↓
-Service Provider（能力提供者）
+Service Provider
         ↓
-Consumer（能力消费者）
+Consumer
 ```
 
 Возьмём файловую систему: под `FS Service` находятся несколько Provider — Local FS, E2B FS и Remote FS, — а выше они единообразно представлены как file tools. Shell, Subprocess, Sandbox, Web, LLM и SubAgent используют ту же структуру. Это трёхуровневое разделение не наше обобщение: в оригинальном разделе [Architecture · Capability seams](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md) сказано: *a seam is a swappable capability with three roles: a Service Definition declaring the interface, a Service Provider implementing it, and a Consumer using it, commonly a model-facing tool* — шов возможностей является заменяемой возможностью с тремя ролями: Service Definition объявляет интерфейс, Service Provider реализует его, а Consumer использует, обычно в виде инструмента, доступного модели.
@@ -37,7 +37,7 @@ turn/start → claim input → assemble（system prompt / context / tools）
   → agent/pre-step → step/start → LLM request（agent/request）→ llm/stream
   → assistant/message → tool/call
   → tools/pre-execute（permission / guard / policy / hook）
-  → tools/execute → tools/post-execute → tool/result → step/end → 下一轮
+  → tools/execute → tools/post-execute → tool/result → step/end → next turn
 ```
 
 (Этот конвейер воспроизводит раздел [Architecture · Turn flow](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md): `turn/*`, `step/*`, `user/message`, `assistant/*` и `tool/*` — сохраняемые события session; `agent/pre-step`, `agent/request`, `llm/stream` и `tools/*` — точки расширения, доступные plugin.)
@@ -58,13 +58,13 @@ turn/start → claim input → assemble（system prompt / context / tools）
 
 ## Сопоставление с фреймворком курса
 
-| 子系统 | DeepSeek Harness 的实现 | 评价 |
+| Подсистема | Реализация DeepSeek Harness | Оценка |
 | --- | --- | --- |
-| 指令 | 插件化；规则/技能均以插件形态注入 | 极自由，但没有内置的"CLAUDE.md"式惯例 |
-| 工具 | Service Definition → Provider → Consumer 能力接缝 | 工具子系统标准化的极致 |
-| 环境 | 沙箱/FS/Shell 全部可换 Provider（含远程 E2B） | 环境彻底可插拔 |
-| 状态 | append-only Session Event Log + Model-visible means logged | 可观测性是第一性约束 |
-| 反馈 | tools/pre-execute 上的 permission / guard / policy / hook | 反馈机制事件化 |
+| Инструкции | Плагины; правила и skills внедряются как плагины | Полная свобода, но нет встроенного соглашения наподобие CLAUDE.md |
+| Инструменты | Шов возможностей Service Definition → Provider → Consumer | Предельная стандартизация подсистемы инструментов |
+| Среда | Провайдеры Sandbox/FS/Shell полностью заменяемы, включая удалённый E2B | Среда полностью модульна |
+| Состояние | append-only Session Event Log + Model-visible means logged | Наблюдаемость — первичное ограничение |
+| Обратная связь | permission / guard / policy / hook в tools/pre-execute | Механизм обратной связи основан на событиях |
 
 Принципиальное отличие DeepSeek Harness от остальных трёх продуктов состоит в том, что Pi, Claude Code и Codex оптимизируют harness «внутри конкретного agent», а DeepSeek Harness определяет harness как **независимую от модели операционную систему**, где сам agent — лишь заменяемое приложение. Цена очевидна: высокая свобода означает высокую стоимость конфигурации. Это неотъемлемая обратная сторона модели «harness как OS» — особенно на этапе Developer Preview, когда продукт предназначен для раннего знакомства, а механизмы ещё развиваются.
 
@@ -79,9 +79,9 @@ turn/start → claim input → assemble（system prompt / context / tools）
 
 Каждое утверждение можно проверить по приведённому ниже оригинальному материалу или исходному коду — мы не пересказываем по памяти:
 
-- **DeepSeek Harness 官网**: определение продукта «Agent = Model + Environment + Tools + State», статус Developer Preview и команда `dsh`.<br/>https://deepseek.com/harness
-- **deepseek-ai/deepseek-harness 仓库** (команда `dsh`, лицензия MIT):<br/>https://github.com/deepseek-ai/deepseek-harness
-- **架构文档 architecture.md**: главный источник статьи — «Every part of the product is a plugin», «There is no privileged core to patch», конвейер событий Turn flow, три роли Capability seams, «Model-visible means logged» и инвариант runtime, append-only Session Event Log, швы возможностей fs/tools/telemetry и подсистемы `ctx.*`.<br/>https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md
-- **架构文档 · 配套子文档**: введение в ядро Cordis (plugins contribute services, typed events, reversible effects), подробности швов возможностей и подсистема Session.<br/>https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/cordis-primer.md ｜ https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/capability-seams.md ｜ https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/session.md
+- **Официальный сайт DeepSeek Harness**: определение продукта «Agent = Model + Environment + Tools + State», статус Developer Preview и команда `dsh`.<br/>https://deepseek.com/harness
+- **Репозиторий deepseek-ai/deepseek-harness** (команда `dsh`, лицензия MIT):<br/>https://github.com/deepseek-ai/deepseek-harness
+- **Архитектурный документ architecture.md**: главный источник статьи — «Every part of the product is a plugin», «There is no privileged core to patch», конвейер событий Turn flow, три роли Capability seams, «Model-visible means logged» и инвариант runtime, append-only Session Event Log, швы возможностей fs/tools/telemetry и подсистемы `ctx.*`.<br/>https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md
+- **Архитектурная документация · Сопутствующие документы**: введение в ядро Cordis (plugins contribute services, typed events, reversible effects), подробности швов возможностей и подсистема Session.<br/>https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/cordis-primer.md ｜ https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/capability-seams.md ｜ https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/session.md
 
 Связанные лекции: [лекция 11 «Как сделать работу agent наблюдаемой»](../lectures/lecture-11-why-observability-belongs-inside-the-harness/) ｜ [лекция 12 «Каждая session должна завершаться чистым handoff»](../lectures/lecture-12-why-every-session-must-leave-a-clean-state/) ｜ [лекция 2 «Что такое harness на самом деле»](../lectures/lecture-02-what-a-harness-actually-is/)

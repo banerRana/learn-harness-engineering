@@ -59,13 +59,13 @@ Les logs complets de Claude Code sont append-only (history.jsonl). Avec les comm
 
 ## Correspondance avec le cadre du cours
 
-| 子系统 | Claude Code 的实现 | 评价 |
+| Sous-système | Implémentation dans Claude Code | Évaluation |
 | --- | --- | --- |
-| 指令 | 作用域分层（组织/用户/项目/本地）+ 自动记忆 | 分层记忆是标杆实现 |
-| 工具 | 技能 + MCP + 钩子 + 子智能体四类扩展 | 职责划分清晰，是核心亮点 |
-| 环境 | 项目内设置 + settings.json | 靠用户在 CLAUDE.md 里自描述 |
-| 状态 | 追加式会话存储 + 五层压缩 + resume/fork | 极强，长任务连续性的参考实现 |
-| 反馈 | 权限分类器 + PostToolUse 钩子强制检查 | 把"防提前宣告完成"变成确定性机制 |
+| Instructions | Hiérarchisation par portée (organisation/utilisateur/projet/local) + mémoire automatique | La mémoire hiérarchisée constitue une implémentation de référence |
+| Outils | Quatre types d’extensions : Skills + MCP + hooks + subagents | La séparation claire des responsabilités est un atout majeur |
+| Environnement | Paramètres du projet + settings.json | L’utilisateur doit le décrire lui-même dans CLAUDE.md |
+| État | Stockage append-only des sessions + compaction à cinq niveaux + resume/fork | Extrêmement puissant, une implémentation de référence pour la continuité des tâches longues |
+| Retour | Classificateur de permissions + contrôle imposé par le hook PostToolUse | Transforme la prévention des annonces prématurées de réussite en mécanisme déterministe |
 
 ## Conceptions à retenir
 
@@ -79,10 +79,10 @@ Les logs complets de Claude Code sont append-only (history.jsonl). Avec les comm
 
 Chaque affirmation peut être reliée aux textes originaux ou au code source ci-dessous, afin d’éviter toute reformulation fondée sur de simples impressions :
 
-- **Claude Code 官方文档 · Memory** : nouveau contexte à chaque session, quatre portées de CLAUDE.md, chargement à la demande des sous-répertoires, auto memory — 200 lignes / 25KB — et génération de CLAUDE.md par `/init`.<br/>https://code.claude.com/docs/en/memory
-- **Claude Code 官方文档 · Skills / MCP / Hooks / Sub-agents** : définition des quatre mécanismes d’extension et événements PreToolUse / PostToolUse / Stop.<br/>https://code.claude.com/docs/en/skills ｜ https://code.claude.com/docs/en/mcp ｜ https://code.claude.com/docs/en/hooks ｜ https://code.claude.com/docs/en/sub-agents
-- **VILA Lab《Dive into Claude Code》**（源码级拆解报告） : pipeline de compaction à cinq niveaux, sept modes de permissions avec classificateur ML, subagents sidechain et stockage de session append-only dans history.jsonl.<br/>https://zhiqiangshen.com/projects/Claude_Code_Report/Claude_Code_Report.pdf
-- **Anthropic《Effective harnesses for long-running agents》** : origine des idées selon lesquelles « la fiabilité vient du harness, et non du modèle », les agents vantent leur travail avec assurance et les hooks doivent assurer la vérification.<br/>https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents
-- **Claude Code Full Stack 导读**（社区，CLAUDE.md / Skills / MCP / Subagents / Hooks 分层） : lecture complémentaire sur la séparation des responsabilités entre mécanismes d’extension.<br/>https://jsmanifest.com/claude-code-full-stack-guide
+- **Documentation officielle de Claude Code · Memory** : nouveau contexte à chaque session, quatre portées de CLAUDE.md, chargement à la demande des sous-répertoires, auto memory — 200 lignes / 25KB — et génération de CLAUDE.md par `/init`.<br/>https://code.claude.com/docs/en/memory
+- **Documentation officielle de Claude Code · Skills / MCP / Hooks / Sub-agents** : définition des quatre mécanismes d’extension et événements PreToolUse / PostToolUse / Stop.<br/>https://code.claude.com/docs/en/skills ｜ https://code.claude.com/docs/en/mcp ｜ https://code.claude.com/docs/en/hooks ｜ https://code.claude.com/docs/en/sub-agents
+- **VILA Lab « Dive into Claude Code »** (rapport d’analyse au niveau du code source) : pipeline de compaction à cinq niveaux, sept modes de permissions avec classificateur ML, subagents sidechain et stockage de session append-only dans history.jsonl.<br/>https://zhiqiangshen.com/projects/Claude_Code_Report/Claude_Code_Report.pdf
+- **Anthropic « Effective harnesses for long-running agents »** : origine des idées selon lesquelles « la fiabilité vient du harness, et non du modèle », les agents vantent leur travail avec assurance et les hooks doivent assurer la vérification.<br/>https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents
+- **Guide de lecture de Claude Code Full Stack** (communauté, hiérarchisation de CLAUDE.md / Skills / MCP / Subagents / Hooks) : lecture complémentaire sur la séparation des responsabilités entre mécanismes d’extension.<br/>https://jsmanifest.com/claude-code-full-stack-guide
 
 Cours associés : [Leçon 03 · Faire du dépôt la source unique de vérité](../lectures/lecture-03-why-the-repository-must-become-the-system-of-record/) ｜ [Leçon 09 · Empêcher l’agent d’annoncer prématurément sa réussite](../lectures/lecture-09-why-agents-declare-victory-too-early/) ｜ [Leçon 10 · Seul le flux complet constitue une véritable vérification](../lectures/lecture-10-why-end-to-end-testing-changes-results/)

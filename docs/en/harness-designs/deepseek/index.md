@@ -17,11 +17,11 @@ This is the most thorough implementation of the course's statement that "everyth
 DeepSeek Harness represents "capabilities" as Services, and divides nearly every capability into three layers:
 
 ```
-Service Definition（能力定义）
+Service Definition
         ↓
-Service Provider（能力提供者）
+Service Provider
         ↓
-Consumer（能力消费者）
+Consumer
 ```
 
 Take the file system as an example: under `FS Service` are multiple Providers—Local FS, E2B FS, and Remote FS—all exposed upward through a consistent set of file tools. Shell, Subprocess, Sandbox, Web, LLM, and SubAgent follow the same structure. This three-layer structure is not our own summary. The [architecture documentation · Capability seams](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md) says: *a seam is a swappable capability with three roles: a Service Definition declaring the interface, a Service Provider implementing it, and a Consumer using it, commonly a model-facing tool*.
@@ -37,7 +37,7 @@ turn/start → claim input → assemble（system prompt / context / tools）
   → agent/pre-step → step/start → LLM request（agent/request）→ llm/stream
   → assistant/message → tool/call
   → tools/pre-execute（permission / guard / policy / hook）
-  → tools/execute → tools/post-execute → tool/result → step/end → 下一轮
+  → tools/execute → tools/post-execute → tool/result → step/end → next turn
 ```
 
 (The pipeline above is adapted from the [architecture documentation · Turn flow](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md): `turn/*`, `step/*`, `user/message`, `assistant/*`, and `tool/*` are persistent session events, while `agent/pre-step`, `agent/request`, `llm/stream`, and `tools/*` are extension points that plugins can observe.)

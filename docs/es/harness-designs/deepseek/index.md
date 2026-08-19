@@ -17,11 +17,11 @@ Es la aplicación más radical de la frase del curso «todo lo que queda fuera d
 DeepSeek Harness representa las «capacidades» mediante Services y divide casi todas ellas en tres capas:
 
 ```
-Service Definition（能力定义）
+Service Definition
         ↓
-Service Provider（能力提供者）
+Service Provider
         ↓
-Consumer（能力消费者）
+Consumer
 ```
 
 Por ejemplo, debajo de `FS Service` hay varios Providers —Local FS, E2B FS y Remote FS— que se exponen de forma uniforme hacia arriba como file tools. Shell, Subprocess, Sandbox, Web, LLM y SubAgent siguen la misma estructura. Esta organización en tres capas no es una interpretación nuestra: el texto original de [Capability seams, en la documentación de arquitectura](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md), dice que *a seam is a swappable capability with three roles: a Service Definition declaring the interface, a Service Provider implementing it, and a Consumer using it, commonly a model-facing tool* —un capability seam es una capacidad reemplazable con tres roles: Service Definition declara la interfaz, Service Provider la implementa y Consumer la utiliza, normalmente como una herramienta expuesta al modelo—.
@@ -37,7 +37,7 @@ turn/start → claim input → assemble（system prompt / context / tools）
   → agent/pre-step → step/start → LLM request（agent/request）→ llm/stream
   → assistant/message → tool/call
   → tools/pre-execute（permission / guard / policy / hook）
-  → tools/execute → tools/post-execute → tool/result → step/end → 下一轮
+  → tools/execute → tools/post-execute → tool/result → step/end → next turn
 ```
 
 (La pipeline anterior es una transcripción de la sección [Turn flow de la documentación de arquitectura](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md): `turn/*`, `step/*`, `user/message`, `assistant/*` y `tool/*` son eventos persistentes de session; `agent/pre-step`, `agent/request`, `llm/stream` y `tools/*` son puntos de extensión que pueden escuchar los plugins.)
@@ -58,13 +58,13 @@ En otras palabras, la observabilidad no es un log añadido a posteriori, sino un
 
 ## Correspondencia con el marco del curso
 
-| 子系统 | DeepSeek Harness 的实现 | 评价 |
+| Subsistema | Implementación de DeepSeek Harness | Evaluación |
 | --- | --- | --- |
-| 指令 | 插件化；规则/技能均以插件形态注入 | 极自由，但没有内置的"CLAUDE.md"式惯例 |
-| 工具 | Service Definition → Provider → Consumer 能力接缝 | 工具子系统标准化的极致 |
-| 环境 | 沙箱/FS/Shell 全部可换 Provider（含远程 E2B） | 环境彻底可插拔 |
-| 状态 | append-only Session Event Log + Model-visible means logged | 可观测性是第一性约束 |
-| 反馈 | tools/pre-execute 上的 permission / guard / policy / hook | 反馈机制事件化 |
+| Instrucciones | Basadas en plugins; las reglas/Skills se inyectan como plugins | Extremadamente flexible, pero carece de una convención integrada como CLAUDE.md |
+| Herramientas | Service Definition → Provider → Consumer como capability seam | Estandarización extrema del subsistema de herramientas |
+| Entorno | Los Providers de sandbox/FS/Shell son reemplazables (incluido E2B remoto) | El entorno es totalmente conectable |
+| Estado | append-only Session Event Log + Model-visible means logged | La observabilidad es una restricción de primer orden |
+| Retroalimentación | permission / guard / policy / hook en tools/pre-execute | Los mecanismos de retroalimentación se basan en eventos |
 
 La diferencia fundamental entre DeepSeek Harness y los otros tres productos es que Pi, Claude Code y Codex optimizan el harness dentro de «un agent concreto», mientras que DeepSeek Harness define el harness como un **sistema operativo independiente del modelo** y trata al propio agent como una aplicación reemplazable que se ejecuta sobre ese OS. El coste también es evidente: una mayor libertad implica un mayor coste de configuración, la otra cara inherente al diseño «harness como OS» —en la etapa de Developer Preview, su posicionamiento también es «probar pronto mientras los mecanismos siguen evolucionando»—.
 

@@ -59,13 +59,13 @@ Claude Code разделяет поверхность расширения на 
 
 ## Сопоставление с фреймворком курса
 
-| 子系统 | Claude Code 的实现 | 评价 |
+| Подсистема | Реализация Claude Code | Оценка |
 | --- | --- | --- |
-| 指令 | 作用域分层（组织/用户/项目/本地）+ 自动记忆 | 分层记忆是标杆实现 |
-| 工具 | 技能 + MCP + 钩子 + 子智能体四类扩展 | 职责划分清晰，是核心亮点 |
-| 环境 | 项目内设置 + settings.json | 靠用户在 CLAUDE.md 里自描述 |
-| 状态 | 追加式会话存储 + 五层压缩 + resume/fork | 极强，长任务连续性的参考实现 |
-| 反馈 | 权限分类器 + PostToolUse 钩子强制检查 | 把"防提前宣告完成"变成确定性机制 |
+| Инструкции | Иерархия областей действия (организация/пользователь/проект/локальная среда) + auto memory | Многоуровневая память — эталонная реализация |
+| Инструменты | Четыре типа расширений: skills + MCP + hooks + subagents | Чёткое разделение ответственности — ключевое преимущество |
+| Среда | Настройки проекта + settings.json | Пользователь самостоятельно описывает её в CLAUDE.md |
+| Состояние | Дописываемое хранилище session + пятиуровневая compaction + resume/fork | Очень мощная реализация и ориентир для непрерывности длительных задач |
+| Обратная связь | Классификатор permissions + принудительные проверки через hook PostToolUse | Превращает предотвращение преждевременного объявления о завершении в детерминированный механизм |
 
 ## Дизайнерские решения, которые стоит перенять
 
@@ -79,10 +79,10 @@ Claude Code разделяет поверхность расширения на 
 
 Каждое утверждение можно проверить по приведённому ниже оригинальному материалу или исходному коду — мы не пересказываем по памяти:
 
-- **Claude Code 官方文档 · Memory**: новый контекст для каждой session, четыре области действия CLAUDE.md, загрузка по требованию из подкаталогов, auto memory (200 строк / 25KB), создание CLAUDE.md командой `/init`.<br/>https://code.claude.com/docs/en/memory
-- **Claude Code 官方文档 · Skills / MCP / Hooks / Sub-agents**: определения четырёх механизмов расширения и событий (PreToolUse / PostToolUse / Stop).<br/>https://code.claude.com/docs/en/skills ｜ https://code.claude.com/docs/en/mcp ｜ https://code.claude.com/docs/en/hooks ｜ https://code.claude.com/docs/en/sub-agents
-- **VILA Lab《Dive into Claude Code》** (отчёт с разбором исходного кода): пятиуровневый конвейер compaction, семь режимов permissions + ML-классификатор, sidechain для subagent и дописываемое хранилище session history.jsonl.<br/>https://zhiqiangshen.com/projects/Claude_Code_Report/Claude_Code_Report.pdf
-- **Anthropic《Effective harnesses for long-running agents》**: источник тезисов «надёжность обеспечивает harness, а не модель», о склонности agent уверенно хвалить собственную работу и об использовании hooks для верификации.<br/>https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents
-- **Claude Code Full Stack 导读** (сообщество; разделение CLAUDE.md / Skills / MCP / Subagents / Hooks): дополнительное чтение о разделении ответственности между механизмами расширения.<br/>https://jsmanifest.com/claude-code-full-stack-guide
+- **Официальная документация Claude Code · Memory**: новый контекст для каждой session, четыре области действия CLAUDE.md, загрузка по требованию из подкаталогов, auto memory (200 строк / 25KB), создание CLAUDE.md командой `/init`.<br/>https://code.claude.com/docs/en/memory
+- **Официальная документация Claude Code · Skills / MCP / Hooks / Sub-agents**: определения четырёх механизмов расширения и событий (PreToolUse / PostToolUse / Stop).<br/>https://code.claude.com/docs/en/skills ｜ https://code.claude.com/docs/en/mcp ｜ https://code.claude.com/docs/en/hooks ｜ https://code.claude.com/docs/en/sub-agents
+- **VILA Lab «Dive into Claude Code»** (отчёт с разбором исходного кода): пятиуровневый конвейер compaction, семь режимов permissions + ML-классификатор, sidechain для subagent и дописываемое хранилище session history.jsonl.<br/>https://zhiqiangshen.com/projects/Claude_Code_Report/Claude_Code_Report.pdf
+- **Anthropic «Effective harnesses for long-running agents»**: источник тезисов «надёжность обеспечивает harness, а не модель», о склонности agent уверенно хвалить собственную работу и об использовании hooks для верификации.<br/>https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents
+- **Обзор Claude Code Full Stack** (сообщество; разделение CLAUDE.md / Skills / MCP / Subagents / Hooks): дополнительное чтение о разделении ответственности между механизмами расширения.<br/>https://jsmanifest.com/claude-code-full-stack-guide
 
 Связанные лекции: [лекция 3 «Как сделать репозиторий единственным источником истины»](../lectures/lecture-03-why-the-repository-must-become-the-system-of-record/) ｜ [лекция 9 «Как не дать agent преждевременно объявить о победе»](../lectures/lecture-09-why-agents-declare-victory-too-early/) ｜ [лекция 10 «Настоящая верификация требует прохождения полного процесса»](../lectures/lecture-10-why-end-to-end-testing-changes-results/)

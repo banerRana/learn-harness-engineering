@@ -17,11 +17,11 @@ Bu kursdagi “model ogʻirliklaridan tashqaridagi barcha narsa harness” ibora
 DeepSeek Harness “imkoniyat”ni Service orqali ifodalaydi va deyarli har bir imkoniyatni uch qatlamga ajratadi:
 
 ```
-Service Definition（能力定义）
+Service Definition
         ↓
-Service Provider（能力提供者）
+Service Provider
         ↓
-Consumer（能力消费者）
+Consumer
 ```
 
 Masalan, fayl tizimida `FS Service` ostida Local FS, E2B FS va Remote FS kabi bir nechta Provider mavjud; yuqorida esa ular yagona file tools koʻrinishida ochiladi. Shell, Subprocess, Sandbox, Web, LLM va SubAgent ham ayni tuzilishga ega. Ushbu uch qatlamli tuzilma bizning xulosamiz emas. [Arxitektura hujjatining Capability seams boʻlimida](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md) aynan shunday yozilgan: *a seam is a swappable capability with three roles: a Service Definition declaring the interface, a Service Provider implementing it, and a Consumer using it, commonly a model-facing tool* (imkoniyat tutashuvi — uchta roldan iborat almashtiriladigan imkoniyat: interfeysni eʼlon qiluvchi Service Definition, uni amalga oshiruvchi Service Provider va undan foydalanuvchi Consumer; oxirgisi odatda modelga koʻrinadigan vosita boʻladi).
@@ -37,7 +37,7 @@ turn/start → claim input → assemble（system prompt / context / tools）
   → agent/pre-step → step/start → LLM request（agent/request）→ llm/stream
   → assistant/message → tool/call
   → tools/pre-execute（permission / guard / policy / hook）
-  → tools/execute → tools/post-execute → tool/result → step/end → 下一轮
+  → tools/execute → tools/post-execute → tool/result → step/end → next turn
 ```
 
 (Yuqoridagi pipeline [arxitektura hujjatining Turn flow boʻlimidagi](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md) maʼlumotning qayta bayonidir: `turn/*`, `step/*`, `user/message`, `assistant/*`, `tool/*` — doimiy saqlanadigan sessiya hodisalari; `agent/pre-step`, `agent/request`, `llm/stream`, `tools/*` esa plaginlar tinglashi mumkin boʻlgan kengaytma nuqtalaridir.)

@@ -79,10 +79,10 @@ Claude Code'un günlüğü ekleme tabanlı eksiksiz bir kayıttır (history.json
 
 Her iddia, izlenime dayalı aktarımı önlemek için aşağıdaki özgün metne veya kaynak koda kadar izlenebilir:
 
-- **Claude Code 官方文档 · Memory**：每次会话全新上下文、CLAUDE.md 四类作用域、子目录按需加载、auto memory（200 行 / 25KB）、`/init` 生成 CLAUDE.md。<br/>https://code.claude.com/docs/en/memory
-- **Claude Code 官方文档 · Skills / MCP / Hooks / Sub-agents**：四类扩展机制的定义与事件（PreToolUse / PostToolUse / Stop）。<br/>https://code.claude.com/docs/en/skills ｜ https://code.claude.com/docs/en/mcp ｜ https://code.claude.com/docs/en/hooks ｜ https://code.claude.com/docs/en/sub-agents
-- **VILA Lab《Dive into Claude Code》**（源码级拆解报告）：五层压缩管线、权限七模式 + ML 分类器、sidechain 子智能体、追加式会话存储 history.jsonl。<br/>https://zhiqiangshen.com/projects/Claude_Code_Report/Claude_Code_Report.pdf
-- **Anthropic《Effective harnesses for long-running agents》**："可靠性来自 harness 而非模型"、agent 会自信地夸赞自己的工作、用钩子做验证等观点出处。<br/>https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents
-- **Claude Code Full Stack 导读**（社区，CLAUDE.md / Skills / MCP / Subagents / Hooks 分层）：作为扩展机制职责分离的补充阅读。<br/>https://jsmanifest.com/claude-code-full-stack-guide
+- **Claude Code Resmî Belgeleri · Memory**: Her session için yepyeni bir bağlam, CLAUDE.md'nin dört kapsam türü, alt dizinlerin gerektiğinde yüklenmesi, auto memory (200 satır / 25KB) ve `/init` ile CLAUDE.md oluşturulması.<br/>https://code.claude.com/docs/en/memory
+- **Claude Code Resmî Belgeleri · Skills / MCP / Hooks / Sub-agents**: Dört genişletme mekanizmasının tanımları ve olayları (PreToolUse / PostToolUse / Stop).<br/>https://code.claude.com/docs/en/skills ｜ https://code.claude.com/docs/en/mcp ｜ https://code.claude.com/docs/en/hooks ｜ https://code.claude.com/docs/en/sub-agents
+- **VILA Lab, “Dive into Claude Code”** (kaynak kod düzeyinde inceleme raporu): Beş aşamalı compaction hattı, yedi permissions modu + ML sınıflandırıcısı, sidechain subagent'ları ve ekleme tabanlı session depolama history.jsonl.<br/>https://zhiqiangshen.com/projects/Claude_Code_Report/Claude_Code_Report.pdf
+- **Anthropic, “Effective harnesses for long-running agents”**: “Güvenilirlik modelden değil harness'tan gelir”, agent'ın kendi çalışmasını kendinden emin biçimde övmesi ve doğrulama için hooks kullanılması gibi görüşlerin kaynağı.<br/>https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents
+- **Claude Code Full Stack Rehberi** (topluluk; CLAUDE.md / Skills / MCP / Subagents / Hooks katmanları): Genişletme mekanizmalarındaki sorumluluk ayrımına ilişkin tamamlayıcı okuma.<br/>https://jsmanifest.com/claude-code-full-stack-guide
 
 İlgili dersler: [Ders 3 · Kod Deposu Neden Tek Gerçeklik Kaynağı Olmalıdır?](../lectures/lecture-03-why-the-repository-must-become-the-system-of-record/) ｜ [Ders 9 · Agent'lar Neden Zaferi Erken İlan Eder?](../lectures/lecture-09-why-agents-declare-victory-too-early/) ｜ [Ders 10 · Uçtan Uca Test Sonuçları Neden Değiştirir?](../lectures/lecture-10-why-end-to-end-testing-changes-results/)

@@ -47,13 +47,13 @@ Approval Policies und Plan Mode bilden die andere Seite des Feedbacks: Vor risik
 
 ## Zuordnung zum Kurs-Framework
 
-| 子系统 | Codex 的实现 | 评价 |
+| Subsystem | Umsetzung von Codex | Bewertung |
 | --- | --- | --- |
-| 指令 | AGENTS.md 目录页 + docs/ 拆分 + 执行不变量 | 教科书级，定义了"给地图不给说明书" |
-| 工具 | worktree 隔离 + spawn_agent 子智能体 | 边界靠环境硬隔离，很强 |
-| 环境 | 独立 worktree + 可观测性栈 | worktree 隔离是其招牌 |
-| 状态 | Write 策略（状态写进文件/文档） | 依赖约定而非内建记忆 |
-| 反馈 | 验证命令入规范 + 审批策略 + plan mode | 反馈路径默认化，值得抄 |
+| Anweisungen | AGENTS.md als Verzeichnisseite + Aufteilung in docs/ + Ausführungsinvarianten | Lehrbuchreif; definiert das Prinzip „eine Karte, keine Anleitung“ |
+| Werkzeuge | worktree-Isolation + spawn_agent-subagents | Grenzen werden durch harte Umgebungsisolation durchgesetzt; sehr stark |
+| Umgebung | Eigener worktree + Observability-Stack | worktree-Isolation ist das Markenzeichen |
+| Zustand | Write-Strategie (Zustand wird in Dateien/Dokumente geschrieben) | Beruht auf Konventionen statt auf integriertem Memory |
+| Feedback | Validierungsbefehle in der Spezifikation + Approval Policies + plan mode | Der Feedbackpfad ist standardmäßig vorgesehen; nachahmenswert |
 
 Der Vergleich zwischen Codex und Claude Code ist aufschlussreich: Claude Code verfolgt „Addition“ – Memory, permissions und subagents werden in den Kernel eingebaut. Codex verfolgt „Subtraktion“ – der Kernel bleibt möglichst zurückhaltend, während mehr Verantwortung bei Repository-Konventionen und Context Engineering liegt. Deshalb heißt es in der Community oft: „Die harness-Philosophie von Codex ist wertvoller als sein Code.“
 

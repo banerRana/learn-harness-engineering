@@ -63,13 +63,13 @@ Le même dépôt communautaire confirme ce modèle : `VISION.md` (objectif), `PR
 
 Évaluation de Pi selon les cinq sous-systèmes du cours (subjective, à titre comparatif) :
 
-| 子系统 | Pi 的实现 | 评价 |
+| Sous-système | Implémentation dans Pi | Évaluation |
 | --- | --- | --- |
-| 指令 | AGENTS.md 分级加载 + SYSTEM.md | 层级清晰，但规则本身要靠用户写 |
-| 工具 | 技能按需加载 + 扩展全生命周期钩子 | 极强，把工具系统做成了可编程面 |
-| 环境 | SYSTEM.md 做环境自描述；运行时环境靠用户在 AGENTS.md 里声明 | 机制是开放的，但可复现性依赖用户自述 |
-| 状态 | 会话树 + 压缩可定制 + PROGRESS.md | 极强，跨会话与可恢复性是其核心 |
-| 反馈 | 验证命令靠用户定义；session-summary / extract-patterns 机制化 | 机制提供，内容靠用户 |
+| Instructions | Chargement hiérarchique d’AGENTS.md + SYSTEM.md | Hiérarchie claire, mais les règles elles-mêmes doivent être rédigées par l’utilisateur |
+| Outils | Chargement des Skills à la demande + hooks couvrant tout le cycle de vie des extensions | Extrêmement puissant : le système d’outils devient une surface programmable |
+| Environnement | SYSTEM.md assure l’auto-description de l’environnement ; l’environnement d’exécution doit être déclaré par l’utilisateur dans AGENTS.md | Le mécanisme est ouvert, mais la reproductibilité dépend de la description fournie par l’utilisateur |
+| État | Arbre de sessions + compaction personnalisable + PROGRESS.md | Extrêmement puissant : la continuité entre sessions et la reprise sont au cœur du système |
+| Retour | Commandes de vérification définies par l’utilisateur ; mécanismes session-summary / extract-patterns | Le mécanisme est fourni, le contenu revient à l’utilisateur |
 
 Le compromis choisi par Pi contraste fortement avec Claude Code et Codex : Claude Code intègre directement au noyau la mémoire, les permissions et les subagents, prêts à l’emploi ; Codex fait des conventions du dépôt et de l’isolation de l’environnement ses valeurs par défaut ; Pi choisit de **ne rien décider à votre place** et transforme le pouvoir de décision en points d’extension. En contrepartie, vous devez soit écrire vos propres extensions, soit installer les packages d’autres développeurs.
 
@@ -84,11 +84,11 @@ Le compromis choisi par Pi contraste fortement avec Claude Code et Codex : Claud
 
 Chaque affirmation peut être reliée aux textes originaux ou au code source ci-dessous, afin d’éviter toute reformulation fondée sur de simples impressions :
 
-- **pi.dev 官网** : formulation du positionnement « Ask Pi to build what you want, or install a package that does it your way », quatre couches personnalisables, arbre de sessions (« sessions are stored as trees », `/tree`, enregistrement dans un seul fichier, export HTML et partage par gist).<br/>https://pi.dev/
-- **pi.dev 官方文档 · Sessions** : compaction interchangeable — topic-based, code-aware ou autre modèle de résumé —, mécanismes de compaction automatique et d’injection dynamique du contexte.<br/>https://pi.dev/docs/usage/sessions
-- **pi.dev 官方文档 · Extensions** : les extensions peuvent injecter des messages avant chaque étape de raisonnement, filtrer l’historique, effectuer un RAG et construire une mémoire à long terme.<br/>https://pi.dev/docs/usage/extensions
-- **pi.dev 官方文档 · Project Context** : sémantique replace / append de SYSTEM.md.<br/>https://pi.dev/docs/usage/project-context
-- **Pi Coding Agent 源码 README**（badlogic/pi-mono） : ordre de chargement à trois niveaux d’AGENTS.md — global → répertoires parents → répertoire courant —, conditions de déclenchement de `/compact` et de la compaction automatique avec point de coupure à 20 000 tokens, chargement à la demande des Skills et standard Agent Skills, cycle de vie des Hooks et exemples d’usage officiels, Programmatic Usage — JSON / RPC / SDK.<br/>https://github.com/badlogic/pi-mono/blob/main/packages/coding-agent/README.md
-- **pi-agent-harness 社区仓库** : extensions skill-router / session-summary / extract-patterns / telemetry et organisation des fichiers VISION.md / PROGRESS.md / LESSONS.md / STANDARDS.md.<br/>https://github.com/LabidySabidy/pi-agent-harness
+- **Site officiel de pi.dev** : formulation du positionnement « Ask Pi to build what you want, or install a package that does it your way », quatre couches personnalisables, arbre de sessions (« sessions are stored as trees », `/tree`, enregistrement dans un seul fichier, export HTML et partage par gist).<br/>https://pi.dev/
+- **Documentation officielle de pi.dev · Sessions** : compaction interchangeable — topic-based, code-aware ou autre modèle de résumé —, mécanismes de compaction automatique et d’injection dynamique du contexte.<br/>https://pi.dev/docs/usage/sessions
+- **Documentation officielle de pi.dev · Extensions** : les extensions peuvent injecter des messages avant chaque étape de raisonnement, filtrer l’historique, effectuer un RAG et construire une mémoire à long terme.<br/>https://pi.dev/docs/usage/extensions
+- **Documentation officielle de pi.dev · Project Context** : sémantique replace / append de SYSTEM.md.<br/>https://pi.dev/docs/usage/project-context
+- **README du code source de Pi Coding Agent** (badlogic/pi-mono) : ordre de chargement à trois niveaux d’AGENTS.md — global → répertoires parents → répertoire courant —, conditions de déclenchement de `/compact` et de la compaction automatique avec point de coupure à 20 000 tokens, chargement à la demande des Skills et standard Agent Skills, cycle de vie des Hooks et exemples d’usage officiels, Programmatic Usage — JSON / RPC / SDK.<br/>https://github.com/badlogic/pi-mono/blob/main/packages/coding-agent/README.md
+- **Dépôt communautaire pi-agent-harness** : extensions skill-router / session-summary / extract-patterns / telemetry et organisation des fichiers VISION.md / PROGRESS.md / LESSONS.md / STANDARDS.md.<br/>https://github.com/LabidySabidy/pi-agent-harness
 
 Cours associés : [Leçon 02 · Ce qu’est réellement un harness](../lectures/lecture-02-what-a-harness-actually-is/) ｜ [Leçon 05 · Préserver la continuité du contexte dans les tâches longues](../lectures/lecture-05-why-long-running-tasks-lose-continuity/) ｜ [Leçon 13 · Passer du pilotage manuel à la boucle automatisée](../lectures/lecture-13-loop-engineering/)

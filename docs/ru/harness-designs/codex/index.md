@@ -47,13 +47,13 @@
 
 ## Сопоставление с фреймворком курса
 
-| 子系统 | Codex 的实现 | 评价 |
+| Подсистема | Реализация Codex | Оценка |
 | --- | --- | --- |
-| 指令 | AGENTS.md 目录页 + docs/ 拆分 + 执行不变量 | 教科书级，定义了"给地图不给说明书" |
-| 工具 | worktree 隔离 + spawn_agent 子智能体 | 边界靠环境硬隔离，很强 |
-| 环境 | 独立 worktree + 可观测性栈 | worktree 隔离是其招牌 |
-| 状态 | Write 策略（状态写进文件/文档） | 依赖约定而非内建记忆 |
-| 反馈 | 验证命令入规范 + 审批策略 + plan mode | 反馈路径默认化，值得抄 |
+| Инструкции | AGENTS.md как страница-оглавление + разделение по docs/ + инварианты выполнения | Эталонная реализация принципа «дайте карту, а не инструкцию» |
+| Инструменты | Изоляция worktree + subagent через spawn_agent | Границы жёстко изолированы средой; очень мощная реализация |
+| Среда | Отдельный worktree + стек наблюдаемости | Изоляция worktree — отличительная черта Codex |
+| Состояние | Стратегия Write (состояние записывается в файлы и документацию) | Опирается на соглашения, а не на встроенную память |
+| Обратная связь | Команды верификации в стандарте + политики подтверждения + plan mode | Путь обратной связи задан по умолчанию и заслуживает заимствования |
 
 Сравнение Codex и Claude Code особенно интересно. Claude Code следует «сложению», встраивая память, permissions и subagent в ядро. Codex следует «вычитанию»: ядро остаётся сдержанным, а больше ответственности возлагается на соглашения репозитория и инженерию контекста. Поэтому сообщество часто говорит, что «философия harness в Codex ценнее его кода».
 
@@ -69,9 +69,9 @@
 
 Каждое утверждение можно проверить по приведённому ниже оригинальному материалу или исходному коду — мы не пересказываем по памяти:
 
-- **OpenAI《Harness Engineering》**: AGENTS.md как страница-оглавление и рекомендация примерно 100 строк, executive invariants / don't micromanage, изоляция worktree + стек наблюдаемости, включение команд верификации в стандарт, пример продукта объёмом более миллиона строк, политики подтверждения и plan mode. Основной источник всех ключевых тезисов статьи.<br/>https://openai.com/index/harness-engineering/
-- **OpenAI 官方《AGENTS.md》规范** (AGENTS.md как стандарт соглашений между инструментами):<br/>https://openai.com/index/agents-md/
-- **Codex CLI 开源仓库** (монолитный бинарный файл, реализованный на Rust):<br/>https://github.com/openai/codex
+- **OpenAI «Harness Engineering»**: AGENTS.md как страница-оглавление и рекомендация примерно 100 строк, executive invariants / don't micromanage, изоляция worktree + стек наблюдаемости, включение команд верификации в стандарт, пример продукта объёмом более миллиона строк, политики подтверждения и plan mode. Основной источник всех ключевых тезисов статьи.<br/>https://openai.com/index/harness-engineering/
+- **Официальная спецификация OpenAI «AGENTS.md»** (AGENTS.md как стандарт соглашений между инструментами):<br/>https://openai.com/index/agents-md/
+- **Репозиторий исходного кода Codex CLI** (монолитный бинарный файл, реализованный на Rust):<br/>https://github.com/openai/codex
 - **Context Engineering for Codex CLI** (сообщество): фреймворк Write-Select-Compress-Isolate, `/compact` и `compact_prompt`, subagent `spawn_agent` / `wait_agent` и конфигурация `.codex/agents/*.toml`.<br/>https://codex.danielvaughan.com/2026/06/10/context-engineering-codex-cli-write-select-compress-isolate-june-2026/
 - **codex-harness-internals** (сообщественный анализ исходного кода): подробности реализации, включая инкрементальный контекст среды в `build_environment_update_item`.<br/>https://github.com/AlexKenbo/codex-harness-internals
 

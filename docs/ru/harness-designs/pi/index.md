@@ -63,13 +63,13 @@ Extensions — главное дизайнерское решение Pi: **по
 
 Оценим Pi по пяти подсистемам курса (субъективно, для сравнения):
 
-| 子系统 | Pi 的实现 | 评价 |
+| Подсистема | Реализация Pi | Оценка |
 | --- | --- | --- |
-| 指令 | AGENTS.md 分级加载 + SYSTEM.md | 层级清晰，但规则本身要靠用户写 |
-| 工具 | 技能按需加载 + 扩展全生命周期钩子 | 极强，把工具系统做成了可编程面 |
-| 环境 | SYSTEM.md 做环境自描述；运行时环境靠用户在 AGENTS.md 里声明 | 机制是开放的，但可复现性依赖用户自述 |
-| 状态 | 会话树 + 压缩可定制 + PROGRESS.md | 极强，跨会话与可恢复性是其核心 |
-| 反馈 | 验证命令靠用户定义；session-summary / extract-patterns 机制化 | 机制提供，内容靠用户 |
+| Инструкции | Иерархическая загрузка AGENTS.md + SYSTEM.md | Чёткая иерархия, но сами правила должен писать пользователь |
+| Инструменты | Загрузка skills по требованию + hooks полного жизненного цикла extensions | Очень мощная реализация, превращающая систему инструментов в программируемую поверхность |
+| Среда | SYSTEM.md для самоописания среды; среда runtime объявляется пользователем в AGENTS.md | Механизм открыт, но воспроизводимость зависит от описания пользователя |
+| Состояние | Дерево session + настраиваемая compaction + PROGRESS.md | Очень мощная реализация; непрерывность между session и восстанавливаемость — её основа |
+| Обратная связь | Команды верификации определяет пользователь; механизированные session-summary / extract-patterns | Механизм предоставлен, содержимое задаёт пользователь |
 
 Выбор Pi резко контрастирует с Claude Code и Codex: Claude Code встраивает «память, permissions и subagent» в ядро и предоставляет их из коробки; Codex делает стандартными «соглашения репозитория и изоляцию среды»; Pi предпочитает **ничего не решать за вас**, превращая право выбора в точки расширения. Цена этого решения — необходимость писать extensions самостоятельно либо устанавливать чужие пакеты.
 
@@ -84,11 +84,11 @@ Extensions — главное дизайнерское решение Pi: **по
 
 Каждое утверждение можно проверить по приведённому ниже оригинальному материалу или исходному коду — мы не пересказываем по памяти:
 
-- **pi.dev 官网**: исходная формулировка позиционирования «Ask Pi to build what you want, or install a package that does it your way», четыре настраиваемых уровня и дерево session («sessions are stored as trees», `/tree`, сохранение в одном файле, экспорт HTML и публикация gist).<br/>https://pi.dev/
-- **pi.dev 官方文档 · Sessions**: подключаемая compaction (topic-based / code-aware / другая модель для summary), автоматическая compaction и динамическое внедрение контекста.<br/>https://pi.dev/docs/usage/sessions
-- **pi.dev 官方文档 · Extensions**: extensions могут перед каждым раундом рассуждения внедрять сообщения, фильтровать историю, выполнять RAG и строить долговременную память.<br/>https://pi.dev/docs/usage/extensions
-- **pi.dev 官方文档 · Project Context**: семантика replace / append для SYSTEM.md.<br/>https://pi.dev/docs/usage/project-context
-- **Pi Coding Agent 源码 README** (badlogic/pi-mono): трёхуровневый порядок загрузки AGENTS.md (глобальный → родительские каталоги → текущий каталог), условия запуска `/compact` и автоматической compaction, точка разбиения в 20 тысяч token, загрузка Skills по требованию и стандарт Agent Skills, жизненный цикл Hooks с четырьмя официальными примерами, Programmatic Usage (JSON / RPC / SDK).<br/>https://github.com/badlogic/pi-mono/blob/main/packages/coding-agent/README.md
-- **pi-agent-harness 社区仓库**: extensions skill-router / session-summary / extract-patterns / telemetry и система файлов VISION.md / PROGRESS.md / LESSONS.md / STANDARDS.md.<br/>https://github.com/LabidySabidy/pi-agent-harness
+- **Официальный сайт pi.dev**: исходная формулировка позиционирования «Ask Pi to build what you want, or install a package that does it your way», четыре настраиваемых уровня и дерево session («sessions are stored as trees», `/tree`, сохранение в одном файле, экспорт HTML и публикация gist).<br/>https://pi.dev/
+- **Официальная документация pi.dev · Sessions**: подключаемая compaction (topic-based / code-aware / другая модель для summary), автоматическая compaction и динамическое внедрение контекста.<br/>https://pi.dev/docs/usage/sessions
+- **Официальная документация pi.dev · Extensions**: extensions могут перед каждым раундом рассуждения внедрять сообщения, фильтровать историю, выполнять RAG и строить долговременную память.<br/>https://pi.dev/docs/usage/extensions
+- **Официальная документация pi.dev · Project Context**: семантика replace / append для SYSTEM.md.<br/>https://pi.dev/docs/usage/project-context
+- **README исходного кода Pi Coding Agent** (badlogic/pi-mono): трёхуровневый порядок загрузки AGENTS.md (глобальный → родительские каталоги → текущий каталог), условия запуска `/compact` и автоматической compaction, точка разбиения в 20 тысяч token, загрузка Skills по требованию и стандарт Agent Skills, жизненный цикл Hooks с четырьмя официальными примерами, Programmatic Usage (JSON / RPC / SDK).<br/>https://github.com/badlogic/pi-mono/blob/main/packages/coding-agent/README.md
+- **Репозиторий сообщества pi-agent-harness**: extensions skill-router / session-summary / extract-patterns / telemetry и система файлов VISION.md / PROGRESS.md / LESSONS.md / STANDARDS.md.<br/>https://github.com/LabidySabidy/pi-agent-harness
 
 Связанные лекции: [лекция 2 «Что такое harness на самом деле»](../lectures/lecture-02-what-a-harness-actually-is/) ｜ [лекция 5 «Как сохранять непрерывность контекста в задачах между session»](../lectures/lecture-05-why-long-running-tasks-lose-continuity/) ｜ [лекция 13 «От ручного управления к автоматическому циклу»](../lectures/lecture-13-loop-engineering/)

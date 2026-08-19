@@ -47,13 +47,13 @@ Les approval policies et le plan mode apportent un autre type de feedback : prod
 
 ## Correspondance avec le cadre du cours
 
-| 子系统 | Codex 的实现 | 评价 |
+| Sous-système | Implémentation dans Codex | Évaluation |
 | --- | --- | --- |
-| 指令 | AGENTS.md 目录页 + docs/ 拆分 + 执行不变量 | 教科书级，定义了"给地图不给说明书" |
-| 工具 | worktree 隔离 + spawn_agent 子智能体 | 边界靠环境硬隔离，很强 |
-| 环境 | 独立 worktree + 可观测性栈 | worktree 隔离是其招牌 |
-| 状态 | Write 策略（状态写进文件/文档） | 依赖约定而非内建记忆 |
-| 反馈 | 验证命令入规范 + 审批策略 + plan mode | 反馈路径默认化，值得抄 |
+| Instructions | AGENTS.md comme page d’index + découpage dans docs/ + invariants d’exécution | Exemplaire : le principe « donner une carte, pas un manuel » y est défini |
+| Outils | Isolation par worktree + subagents spawn_agent | Frontières imposées par une forte isolation de l’environnement |
+| Environnement | worktree indépendant + stack d’observabilité | L’isolation par worktree est sa marque distinctive |
+| État | Stratégie Write (l’état est écrit dans des fichiers ou des documents) | Repose sur des conventions plutôt que sur une mémoire intégrée |
+| Retour | Commandes de vérification intégrées aux conventions + approval policies + plan mode | Le parcours de retour est fourni par défaut, un modèle à reprendre |
 
 La comparaison entre Codex et Claude Code est révélatrice : Claude Code procède par « addition », en intégrant au noyau mémoire, permissions et subagents ; Codex procède par « soustraction », en gardant un noyau aussi sobre que possible et en reportant davantage de responsabilités sur les conventions du dépôt et l’ingénierie du contexte. C’est pourquoi la communauté dit souvent que « la philosophie du harness de Codex vaut davantage que son code ».
 
@@ -69,10 +69,10 @@ La comparaison entre Codex et Claude Code est révélatrice : Claude Code procè
 
 Chaque affirmation peut être reliée aux textes originaux ou au code source ci-dessous, afin d’éviter toute reformulation fondée sur de simples impressions :
 
-- **OpenAI《Harness Engineering》** : AGENTS.md comme page d’index et recommandation d’environ 100 lignes, executive invariants / don't micromanage, isolation par worktree avec stack d’observabilité, commandes de vérification intégrées aux conventions, exemple du produit de plus d’un million de lignes, approval policies et plan mode. Source principale de toutes les affirmations essentielles de cet article.<br/>https://openai.com/index/harness-engineering/
-- **OpenAI 官方《AGENTS.md》规范** (AGENTS.md comme convention standard entre outils) :<br/>https://openai.com/index/agents-md/
-- **Codex CLI 开源仓库** (binaire monolithique écrit en Rust) :<br/>https://github.com/openai/codex
-- **Context Engineering for Codex CLI**（社区） : cadre Write-Select-Compress-Isolate, `/compact` et `compact_prompt`, subagents `spawn_agent` / `wait_agent` et configuration `.codex/agents/*.toml`.<br/>https://codex.danielvaughan.com/2026/06/10/context-engineering-codex-cli-write-select-compress-isolate-june-2026/
-- **codex-harness-internals**（社区源码分析） : détails d’implémentation, dont le contexte environnemental incrémental de `build_environment_update_item`.<br/>https://github.com/AlexKenbo/codex-harness-internals
+- **OpenAI « Harness Engineering »** : AGENTS.md comme page d’index et recommandation d’environ 100 lignes, executive invariants / don't micromanage, isolation par worktree avec stack d’observabilité, commandes de vérification intégrées aux conventions, exemple du produit de plus d’un million de lignes, approval policies et plan mode. Source principale de toutes les affirmations essentielles de cet article.<br/>https://openai.com/index/harness-engineering/
+- **Spécification officielle d’OpenAI « AGENTS.md »** (AGENTS.md comme convention standard entre outils) :<br/>https://openai.com/index/agents-md/
+- **Dépôt open source de Codex CLI** (binaire monolithique écrit en Rust) :<br/>https://github.com/openai/codex
+- **Context Engineering for Codex CLI** (communauté) : cadre Write-Select-Compress-Isolate, `/compact` et `compact_prompt`, subagents `spawn_agent` / `wait_agent` et configuration `.codex/agents/*.toml`.<br/>https://codex.danielvaughan.com/2026/06/10/context-engineering-codex-cli-write-select-compress-isolate-june-2026/
+- **codex-harness-internals** (analyse communautaire du code source) : détails d’implémentation, dont le contexte environnemental incrémental de `build_environment_update_item`.<br/>https://github.com/AlexKenbo/codex-harness-internals
 
 Cours associés : [Leçon 03 · Faire du dépôt la source unique de vérité](../lectures/lecture-03-why-the-repository-must-become-the-system-of-record/) ｜ [Leçon 04 · Répartir les instructions entre plusieurs fichiers](../lectures/lecture-04-why-one-giant-instruction-file-fails/) ｜ [Leçon 07 · Délimiter clairement chaque tâche de l’agent](../lectures/lecture-07-why-agents-overreach-and-under-finish/)

@@ -63,13 +63,13 @@ El mismo repositorio comunitario lleva aún más lejos este patrón: `VISION.md`
 
 Evaluación de Pi según los cinco subsistemas del curso —subjetiva y pensada para la comparación—:
 
-| 子系统 | Pi 的实现 | 评价 |
+| Subsistema | Implementación de Pi | Evaluación |
 | --- | --- | --- |
-| 指令 | AGENTS.md 分级加载 + SYSTEM.md | 层级清晰，但规则本身要靠用户写 |
-| 工具 | 技能按需加载 + 扩展全生命周期钩子 | 极强，把工具系统做成了可编程面 |
-| 环境 | SYSTEM.md 做环境自描述；运行时环境靠用户在 AGENTS.md 里声明 | 机制是开放的，但可复现性依赖用户自述 |
-| 状态 | 会话树 + 压缩可定制 + PROGRESS.md | 极强，跨会话与可恢复性是其核心 |
-| 反馈 | 验证命令靠用户定义；session-summary / extract-patterns 机制化 | 机制提供，内容靠用户 |
+| Instrucciones | Carga jerárquica de AGENTS.md + SYSTEM.md | Jerarquía clara, pero los usuarios deben escribir las reglas |
+| Herramientas | Skills bajo demanda + hooks de Extensions para todo el ciclo de vida | Muy potente; convierte el sistema de herramientas en una superficie programable |
+| Entorno | SYSTEM.md para la autodescripción del entorno; los usuarios declaran el entorno de ejecución en AGENTS.md | El mecanismo es abierto, pero la reproducibilidad depende de las descripciones escritas por los usuarios |
+| Estado | Árbol de sessions + compaction personalizable + PROGRESS.md | Muy potente; la continuidad entre sessions y la recuperabilidad son fundamentales |
+| Retroalimentación | Comandos de verificación definidos por el usuario; mecanismos estructurados de session-summary / extract-patterns | Se proporciona el mecanismo; los usuarios aportan el contenido |
 
 La elección de Pi contrasta claramente con Claude Code y Codex: Claude Code integra en el núcleo la «memoria, permissions y subagents» para que funcionen de inmediato; Codex convierte las «convenciones del repositorio y el aislamiento del entorno» en valores predeterminados; Pi opta por **no decidir nada por ti** y convierte cada decisión en un punto de extensión. El precio es que tendrás que escribir tus propias Extensions o instalar paquetes creados por otros.
 
