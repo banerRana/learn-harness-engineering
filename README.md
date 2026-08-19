@@ -32,6 +32,21 @@
 
 ## 🆕 What's New — August 2026
 
+**Frontier Harness Design Breakdowns — new section (4 breakdowns)**
+
+| What | Details |
+|------|---------|
+| **New section** | [Frontier Harness Design Breakdowns](docs/en/harness-designs/index.md) — Apply the course's five-subsystem framework (instructions, tools, environment, state, feedback) to reverse-engineer how four frontier products build real harnesses. |
+| **Pi** | [How Pi builds its harness](docs/en/harness-designs/pi/index.md) — a minimal kernel, programmable expansion, and context engineering behind "ask Pi to build what you want." |
+| **Claude Code** | [How Claude Code builds its harness](docs/en/harness-designs/claude-code/index.md) — four-layer memory, five-level compaction, hooks, and sub-agent isolation. |
+| **Codex** | [How Codex builds its harness](docs/en/harness-designs/codex/index.md) — the repository as source of truth, AGENTS.md as a directory page, and worktree isolation. |
+| **DeepSeek** | [How DeepSeek builds its harness](docs/en/harness-designs/deepseek/index.md) — "everything is a plugin," capability seams, and an event pipeline. |
+| **All 15 languages** | Full translation coverage across all supported languages. |
+
+**Key idea:** The course gives you a framework; these breakdowns show you how the same principles actually play out in production harnesses.
+
+---
+
 **Graph Engineering Update — 1 new lecture, 1 new project**
 
 | What | Details |
@@ -71,7 +86,7 @@ Learn Harness Engineering is a course dedicated to the engineering of AI coding 
 
 ## Table of Contents
 
-- [🆕 What's New](#-whats-new--july-2026)
+- [🆕 What's New](#-whats-new--august-2026)
 - [✨ Visual Preview](#-visual-preview)
 - [What Harness Engineering Actually Means](#what-harness-engineering-actually-means)
 - [Quick Start: Improve Your Agent Today](#quick-start-improve-your-agent-today)

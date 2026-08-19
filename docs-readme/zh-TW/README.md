@@ -22,6 +22,17 @@
 
 Learn Harness Engineering 是一門專注於 AI 程式設計代理工程化的課程。我們深入研究並整合了業界最先進的 Harness Engineering 理論與實踐。核心參考資料包括：
 
+> **🆕 2026 年 8 月更新：前沿 Harness 拆解**——新增欄目，包含 4 篇拆解：
+>
+> - **新欄目** [前沿 Harness 拆解](../../docs/zh-TW/harness-designs/index.md)：運用課程的五個子系統框架（指令、工具、環境、狀態、回饋），逆向拆解四款前沿產品如何建構真實的 harness。
+> - **Pi** [Pi 如何建構其 harness](../../docs/zh-TW/harness-designs/pi/index.md)：極簡核心、可程式化擴充，以及「讓 Pi 建構你想要的東西」背後的上下文工程。
+> - **Claude Code** [Claude Code 如何建構其 harness](../../docs/zh-TW/harness-designs/claude-code/index.md)：四層記憶、五級壓縮、hooks，以及 sub-agent 隔離。
+> - **Codex** [Codex 如何建構其 harness](../../docs/zh-TW/harness-designs/codex/index.md)：以儲存庫為事實來源、以 AGENTS.md 為目錄頁，以及 worktree 隔離。
+> - **DeepSeek** [DeepSeek 如何建構其 harness](../../docs/zh-TW/harness-designs/deepseek/index.md)：「一切皆為 plugin」、能力接縫，以及事件管線。
+> - **全部 15 種語言**：涵蓋所有支援語言的完整翻譯。
+>
+> **核心觀點：** 課程為你提供框架；這些拆解則展示相同原則如何實際運用於生產環境的 harness。
+>
 > **🆕 2026 年 8 月更新：圖工程（Graph Engineering）**——新增 1 講 + 1 個專案：
 >
 > - **第十四講** [從單循環到圖工程](../../docs/zh-TW/lectures/lecture-14-graph-engineering/index.md)：為什麼單循環必然長成圖——四層疊加（prompt → context → loop → graph）及 harness 在其中的位置、圖的四個零件（節點、邊、共享狀態、路由）、為什麼 loop 內的檢查點救不了規模上的三種結構性失敗（Goodhart、向上失明、衝突）、框架無關的六步構建你的第一張圖、Graph 與 Workflow 的區別、錨、發布前 vs 發布後的開源專案現況、編排稅，以及什麼時候真的值得畫圖。

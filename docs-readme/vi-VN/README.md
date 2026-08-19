@@ -22,6 +22,17 @@
 
 Learn Harness Engineering là một khóa học dành riêng cho kỹ thuật liên quan đến các agent viết code AI. Chúng tôi đã nghiên cứu sâu và tổng hợp các lý thuyết và thực tiễn Harness Engineering tiên tiến nhất trong ngành. Các tài liệu tham khảo cốt lõi của chúng tôi bao gồm:
 
+> **🆕 Cập nhật tháng 8/2026: Phân tích Thiết kế Harness Tiên phong** — chuyên mục mới với 4 bài phân tích:
+>
+> - **Chuyên mục mới** [Phân tích Thiết kế Harness Tiên phong](../../docs/vi/harness-designs/index.md) — áp dụng framework năm hệ thống con của khóa học (chỉ dẫn, công cụ, môi trường, trạng thái, phản hồi) để phân tích ngược cách bốn sản phẩm tiên phong xây dựng harness thực tế.
+> - **Pi** [Cách Pi xây dựng harness](../../docs/vi/harness-designs/pi/index.md) — kernel tối giản, khả năng mở rộng có thể lập trình và kỹ thuật ngữ cảnh đằng sau triết lý “yêu cầu Pi xây dựng điều bạn muốn”.
+> - **Claude Code** [Cách Claude Code xây dựng harness](../../docs/vi/harness-designs/claude-code/index.md) — bộ nhớ bốn lớp, cơ chế compaction năm cấp, hooks và sự cô lập sub-agent.
+> - **Codex** [Cách Codex xây dựng harness](../../docs/vi/harness-designs/codex/index.md) — repository là nguồn chân lý, AGENTS.md là trang thư mục và sự cô lập bằng worktree.
+> - **DeepSeek** [Cách DeepSeek xây dựng harness](../../docs/vi/harness-designs/deepseek/index.md) — “mọi thứ đều là plugin”, các đường ranh giới năng lực và pipeline sự kiện.
+> - **Đầy đủ cả 15 ngôn ngữ** — được dịch đầy đủ sang tất cả các ngôn ngữ được hỗ trợ.
+>
+> **Ý tưởng cốt lõi:** Khóa học cung cấp cho bạn một framework; các bài phân tích này cho thấy những nguyên tắc tương tự thực sự được áp dụng như thế nào trong các harness production.
+>
 > **🆕 Cập nhật tháng 8/2026: Graph Engineering (Kỹ thuật Đồ thị)** — thêm mới 1 bài giảng + 1 dự án:
 >
 > - **Bài giảng 14** [Từ Vòng lặp Đơn lẻ đến Kỹ thuật Đồ thị](../../docs/vi/lectures/lecture-14-graph-engineering/index.md): vì sao vòng lặp đơn lẻ chắc chắn phát triển thành đồ thị — bốn lớp xếp chồng (prompt → context → loop → graph) và vị trí của harness trong đó, bốn bộ phận của đồ thị (nút, cạnh, trạng thái dùng chung, định tuyến), vì sao checkpoint trong loop không cứu được ba kiểu thất bại mang tính cấu trúc ở quy mô lớn (Goodhart, mù hướng lên, xung đột), sáu bước xây dựng đồ thị đầu tiên của bạn không phụ thuộc framework, sự khác biệt giữa Graph và Workflow, mỏ neo, hiện trạng dự án mã nguồn mở trước-phát hành vs sau-phát hành, thuế điều phối, và khi nào thực sự đáng để vẽ đồ thị.

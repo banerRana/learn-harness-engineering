@@ -22,6 +22,17 @@
 
 Learn Harness Engineering은 AI 코딩 에이전트의 엔지니어링에 집중하는 강좌입니다. 업계에서 가장 선진적인 Harness Engineering 이론과 실무를 심층적으로 연구하고 종합했습니다. 핵심 참고 자료는 다음과 같습니다:
 
+> **🆕 2026년 8월 업데이트: 프런티어 Harness 설계 분석** — 4개의 분석을 담은 새 섹션:
+>
+> - **새 섹션** [프런티어 Harness 설계 분석](../../docs/ko/harness-designs/index.md) — 강좌의 다섯 가지 하위 시스템 프레임워크(지시, 도구, 환경, 상태, 피드백)를 적용하여 네 가지 프런티어 제품이 실제 harness를 구축하는 방식을 역공학합니다.
+> - **Pi** [Pi가 harness를 구축하는 방법](../../docs/ko/harness-designs/pi/index.md) — 최소 커널, 프로그래밍 가능한 확장, 그리고 '원하는 것을 Pi에게 만들어 달라고 요청하기'를 뒷받침하는 컨텍스트 엔지니어링.
+> - **Claude Code** [Claude Code가 harness를 구축하는 방법](../../docs/ko/harness-designs/claude-code/index.md) — 4계층 메모리, 5단계 압축, 훅, 그리고 하위 에이전트 격리.
+> - **Codex** [Codex가 harness를 구축하는 방법](../../docs/ko/harness-designs/codex/index.md) — 저장소를 단일 진실 공급원으로, AGENTS.md를 디렉터리 페이지로 활용하고 worktree를 격리합니다.
+> - **DeepSeek** [DeepSeek가 harness를 구축하는 방법](../../docs/ko/harness-designs/deepseek/index.md) — '모든 것은 플러그인이다', 역량 경계, 그리고 이벤트 파이프라인.
+> - **15개 언어 전체** — 지원되는 모든 언어에 대한 완전한 번역 제공.
+>
+> **핵심 관점:** 강좌는 프레임워크를 제공하고, 이 분석들은 동일한 원칙이 실제 프로덕션 harness에서 어떻게 구현되는지 보여줍니다.
+>
 > **🆕 2026년 8월 업데이트: 그래프 엔지니어링(Graph Engineering)** — 강의 1개 + 프로젝트 1개 추가:
 >
 > - **제14강** [단일 루프에서 그래프 엔지니어링으로](../../docs/ko/lectures/lecture-14-graph-engineering/index.md): 왜 단일 루프는 반드시 그래프로 자라나는가 — 4층 겹침(prompt → context → loop → graph)과 harness의 위치, 그래프의 네 부품(노드, 엣지, 공유 상태, 라우팅), 왜 루프 안의 체크포인트는 규모에서의 세 가지 구조적 실패(Goodhart, 위쪽 실명, 충돌)를 구하지 못하는지, 프레임워크 무관의 여섯 단계로 첫 그래프 구축, Graph와 Workflow의 차이, 앵커, 출시 전/후 오픈소스 프로젝트 현황, 오케스트레이션 세금, 그리고 언제 정말로 그래프를 그릴 가치가 있는지.

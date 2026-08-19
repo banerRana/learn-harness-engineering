@@ -22,6 +22,17 @@
 
 Learn Harness Engineering ist ein Kurs, der sich der Entwicklung von KI-Coding-Agenten widmet. Wir haben die fortschrittlichsten Theorien und Praktiken des Harness Engineering in der Branche eingehend studiert und zusammengefasst. Unsere Kernreferenzen umfassen:
 
+> **🆕 August-2026-Update: Analysen von Frontier-Harness-Designs** — neuer Abschnitt mit 4 Analysen:
+>
+> - **Neuer Abschnitt** [Analysen von Frontier-Harness-Designs](../../docs/de/harness-designs/index.md) — Wende das Fünf-Subsystem-Framework des Kurses (Anweisungen, Werkzeuge, Umgebung, Zustand, Feedback) an, um mittels Reverse Engineering herauszufinden, wie vier Frontier-Produkte echte Harnesses aufbauen.
+> - **Pi** [Wie Pi sein Harness aufbaut](../../docs/de/harness-designs/pi/index.md) — ein minimaler Kernel, programmierbare Erweiterung und Context Engineering hinter „Bitte Pi, das zu bauen, was du möchtest“.
+> - **Claude Code** [Wie Claude Code sein Harness aufbaut](../../docs/de/harness-designs/claude-code/index.md) — vierstufiges Gedächtnis, fünfstufige Komprimierung, Hooks und Sub-Agent-Isolation.
+> - **Codex** [Wie Codex sein Harness aufbaut](../../docs/de/harness-designs/codex/index.md) — das Repository als Source of Truth, AGENTS.md als Verzeichnisseite und Worktree-Isolation.
+> - **DeepSeek** [Wie DeepSeek sein Harness aufbaut](../../docs/de/harness-designs/deepseek/index.md) — „Alles ist ein Plugin“, Capability Seams und eine Event-Pipeline.
+> - **Alle 15 Sprachen** — vollständige Übersetzungsabdeckung für alle unterstützten Sprachen.
+>
+> **Kernaussage:** Der Kurs vermittelt dir ein Framework; diese Analysen zeigen dir, wie dieselben Prinzipien in produktiven Harnesses tatsächlich umgesetzt werden.
+>
 > **🆕 August-2026-Update: Graph Engineering (Graph Engineering)** — 1 neue Vorlesung + 1 neues Projekt:
 >
 > - **Lektion 14** [Von Einzel-Loops zu Graph Engineering](../../docs/de/lectures/lecture-14-graph-engineering/index.md): warum ein einzelner Loop unweigerlich zu einem Graphen wird — die vier gestapelten Ebenen (prompt → context → loop → graph) und der Ort des Harness darin, die vier Teile eines Graphen (Knoten, Kanten, Shared State, Routing), warum Checkpoints innerhalb eines Loops die drei strukturellen Fehlschläge im Maßstab (Goodhart, Blindheit nach oben, Konflikt) nicht retten können, die framework-unabhängigen sechs Schritte zum Bauen deines ersten Graphen, der Unterschied zwischen Graph und Workflow, Anker, die Situation der Open-Source-Projekte vor vs. nach der Veröffentlichung, die Orchestration Tax — und wann ein Graph wirklich einen Graphen wert ist.

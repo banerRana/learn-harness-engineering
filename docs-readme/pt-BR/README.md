@@ -31,6 +31,17 @@
 
 Aprenda Engenharia de Harness é um curso dedicado à engenharia de agentes de codificação de IA. Estudamos profundamente e sintetizamos as teorias e práticas mais avançadas de Engenharia de Harness na indústria. Nossas referências principais incluem:
 
+> **🆕 Atualização de agosto de 2026: Análises de Design de Harness de Fronteira** — nova seção com 4 análises:
+>
+> - **Nova seção** [Análises de Design de Harness de Fronteira](../../docs/pt-BR/harness-designs/index.md) — aplique o framework de cinco subsistemas do curso (instruções, ferramentas, ambiente, estado e feedback) para fazer engenharia reversa de como quatro produtos de fronteira constroem harnesses reais.
+> - **Pi** [Como o Pi constrói seu harness](../../docs/pt-BR/harness-designs/pi/index.md) — um kernel mínimo, expansão programável e a engenharia de contexto por trás de “peça ao Pi para construir o que você quiser”.
+> - **Claude Code** [Como o Claude Code constrói seu harness](../../docs/pt-BR/harness-designs/claude-code/index.md) — memória em quatro camadas, compactação em cinco níveis, hooks e isolamento de subagentes.
+> - **Codex** [Como o Codex constrói seu harness](../../docs/pt-BR/harness-designs/codex/index.md) — o repositório como fonte da verdade, AGENTS.md como página de diretório e isolamento por worktree.
+> - **DeepSeek** [Como o DeepSeek constrói seu harness](../../docs/pt-BR/harness-designs/deepseek/index.md) — “tudo é um plugin”, pontos de separação entre capacidades e um pipeline de eventos.
+> - **Todos os 15 idiomas** — cobertura completa de tradução em todos os idiomas suportados.
+>
+> **Ideia central:** o curso oferece um framework; estas análises mostram como os mesmos princípios realmente se manifestam em harnesses de produção.
+>
 > **🆕 Atualização de agosto de 2026: Engenharia de Grafos (Graph Engineering)** — adicionados 1 aula + 1 projeto:
 >
 > - **Aula 14** [Do Loop Único à Engenharia de Grafos](../../docs/pt-BR/lectures/lecture-14-graph-engineering/index.md): por que um único loop inevitavelmente vira um grafo — as quatro camadas empilhadas (prompt → context → loop → graph) e onde o harness se encaixa, as quatro peças do grafo (nós, arestas, estado compartilhado, roteamento), por que os checkpoints dentro de um loop não resolvem os três modos de falha estrutural em escala (Goodhart, cegueira para cima, conflito), os seis passos independentes de framework para construir seu primeiro grafo, a diferença entre Grafo e Workflow, as âncoras, o cenário dos projetos open source antes vs. depois do lançamento, o imposto de orquestração e quando realmente vale a pena desenhar um grafo.
