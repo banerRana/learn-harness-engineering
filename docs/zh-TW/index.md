@@ -25,6 +25,10 @@ Learn Harness Engineering 是一門專注於 AI 程式設計代理工程實踐�
     <h3>資源庫</h3>
     <p>開箱即用的範本（AGENTS.md、feature_list.json 等），可直接複製到你自己的儲存庫中。</p>
   </a>
+  <a href="./harness-designs/" class="card">
+    <h3>前沿 Harness 拆解</h3>
+    <p>用本課程的理論框架，逐層拆解 Pi、Claude Code、Codex、DeepSeek 的真實 harness 設計。</p>
+  </a>
 </div>
 
 ## Harness 的核心機制

@@ -25,6 +25,10 @@ Escolha seu caminho de aprendizado para começar. O curso é dividido em palestr
     <h3>Biblioteca de Recursos</h3>
     <p>Modelos prontos para uso (AGENTS.md, feature_list.json) para usar em seus próprios repositórios.</p>
   </a>
+  <a href="./harness-designs/" class="card">
+    <h3>Análise dos harnesses de ponta</h3>
+    <p>Como Pi, Claude Code, Codex e DeepSeek projetam seus harness na prática, conectado ao framework do curso.</p>
+  </a>
 </div>
 
 ## O Mecanismo Central de um Harness

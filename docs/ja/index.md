@@ -25,6 +25,10 @@ Learn Harness Engineering は、AI コーディングエージェントを工程
     <h3>リソースライブラリ</h3>
     <p>自分のリポジトリにそのまま使える AGENTS.md や feature_list.json などのテンプレートです。</p>
   </a>
+  <a href="./harness-designs/" class="card">
+    <h3>最前線の Harness 設計を読み解く</h3>
+    <p>Pi、Claude Code、Codex、DeepSeek が実際にどう harness を設計しているかを、このコースの理論で紐解きます。</p>
+  </a>
 </div>
 
 ## Harness の中核メカニズム

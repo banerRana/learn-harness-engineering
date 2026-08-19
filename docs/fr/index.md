@@ -25,6 +25,10 @@ Choisissez votre parcours d'apprentissage. Le cours est divisé en leçons théo
     <h3>Bibliothèque de ressources</h3>
     <p>Modèles prêts à copier, comme AGENTS.md et feature_list.json, pour vos propres dépôts.</p>
   </a>
+  <a href="./harness-designs/" class="card">
+    <h3>Décryptage des harnesses de pointe</h3>
+    <p>Comment Pi, Claude Code, Codex et DeepSeek conçoivent réellement leur harness, relié au cadre du cours.</p>
+  </a>
 </div>
 
 ## Le mécanisme central d'un harness

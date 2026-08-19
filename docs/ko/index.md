@@ -28,6 +28,10 @@ Learn Harness Engineering은 AI 코딩 에이전트(coding agent)의 엔지니�
     <h3>리소스 모음(Resource Library)</h3>
     <p>여러분의 저장소에서 바로 쓸 수 있는 복사용 템플릿(AGENTS.md, feature_list.json 등)입니다.</p>
   </a>
+  <a href="./harness-designs/" class="card">
+    <h3>최전선 Harness 분석</h3>
+    <p>Pi, Claude Code, Codex, DeepSeek가 실제로 harness를 어떻게 설계하는지, 강의 프레임워크로 분석합니다.</p>
+  </a>
 </div>
 
 ## 하네스의 핵심 메커니즘

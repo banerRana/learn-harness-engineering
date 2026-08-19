@@ -26,6 +26,10 @@ Oʻqish yoʻlingizni tanlang. Kurs uch qismdan iborat: nazariy maʼruzalar, amal
     <h3>Resurslar kutubxonasi</h3>
     <p>Oʻz repozitoriyalaringizda foydalanish uchun tayyor andozalar (AGENTS.md, feature_list.json).</p>
   </a>
+  <a href="./harness-designs/" class="card">
+    <h3>Ilgʻor harness dizaynlari tahlili</h3>
+    <p>Pi, Claude Code, Codex va DeepSeek oʻz harness'larini qanday loyihalashini kurs ramkasiga bogʻlab tahlil qiling.</p>
+  </a>
 </div>
 
 ## Harnessʼning asosiy mexanizmi

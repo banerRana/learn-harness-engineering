@@ -25,6 +25,10 @@ Wähle deinen Lernpfad. Der Kurs besteht aus theoretischen Lektionen, praktische
     <h3>Ressourcenbibliothek</h3>
     <p>Kopierfertige Vorlagen wie AGENTS.md und feature_list.json für deine eigenen Repositories.</p>
   </a>
+  <a href="./harness-designs/" class="card">
+    <h3>Analyse führender Harness-Designs</h3>
+    <p>Wie Pi, Claude Code, Codex und DeepSeek ihre Harnesses tatsächlich entwerfen, eingebettet in das Rahmenwerk des Kurses.</p>
+  </a>
 </div>
 
 ## Der Kernmechanismus eines Harness

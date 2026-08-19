@@ -26,6 +26,10 @@ Hãy chọn lộ trình phù hợp để bắt đầu hành trình của bạn. 
     <h3>Thư viện Tài nguyên</h3>
     <p>Các mẫu sẵn sàng sao chép (AGENTS.md, feature_list.json) để bạn đưa vào kho lưu trữ của riêng mình.</p>
   </a>
+  <a href="./harness-designs/" class="card">
+    <h3>Phân tích các harness tiên tiến</h3>
+    <p>Pi, Claude Code, Codex và DeepSeek thực sự thiết kế harness của họ như thế nào — gắn với khung của khóa học.</p>
+  </a>
 </div>
 
 ## Cơ chế cốt lõi của một Harness

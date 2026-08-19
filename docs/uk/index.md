@@ -25,6 +25,10 @@ Learn Harness Engineering — це курс, присвячений інжене
     <h3>Бібліотека ресурсів</h3>
     <p>Готові шаблони (AGENTS.md, feature_list.json) для використання у власних репозиторіях.</p>
   </a>
+  <a href="./harness-designs/" class="card">
+    <h3>Розбір передових harness</h3>
+    <p>Як Pi, Claude Code, Codex і DeepSeek реально проєктують свої harness — у прив'язці до рамки курсу.</p>
+  </a>
 </div>
 
 ## Основний механізм harness

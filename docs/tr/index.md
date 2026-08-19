@@ -25,6 +25,10 @@ Başlamak için öğrenme yolunuzu seçin. Kurs üç bölümden oluşur: teorik 
     <h3>Kaynak Kütüphanesi</h3>
     <p>Kendi depolarınızda kullanabileceğiniz hazır şablonlar (AGENTS.md, feature_list.json).</p>
   </a>
+  <a href="./harness-designs/" class="card">
+    <h3>Öncü Harness Tasarımlarının İncelenmesi</h3>
+    <p>Pi, Claude Code, Codex ve DeepSeek'in gerçek harness tasarımlarını kursun çerçevesiyle çözümleyin.</p>
+  </a>
 </div>
 
 ## Harness'ın temel mekanizması

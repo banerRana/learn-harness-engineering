@@ -25,6 +25,10 @@ Learn Harness Engineering هو مساق مخصص لهندسة وكلاء الب�
     <h3>مكتبة الموارد</h3>
     <p>قوالب جاهزة للنسخ مثل AGENTS.md و feature_list.json لاستخدامها في مستودعاتك.</p>
   </a>
+  <a href="./harness-designs/" class="card">
+    <h3>تحليل تصميمات Harness المتقدمة</h3>
+    <p>كيف تصمم Pi وClaude Code وCodex وDeepSeek أنظمة harness الفعلية لديها، في ضوء إطار هذا المساق.</p>
+  </a>
 </div>
 
 ## الآلية الأساسية للـ harness

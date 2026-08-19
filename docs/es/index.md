@@ -25,6 +25,10 @@ Elige tu ruta de aprendizaje. El curso se divide en clases teóricas, proyectos 
     <h3>Biblioteca de recursos</h3>
     <p>Plantillas listas para copiar, como AGENTS.md y feature_list.json, para tus propios repositorios.</p>
   </a>
+  <a href="./harness-designs/" class="card">
+    <h3>Análisis de los harness más avanzados</h3>
+    <p>Cómo Pi, Claude Code, Codex y DeepSeek diseñan realmente sus harness, vinculado al marco del curso.</p>
+  </a>
 </div>
 
 ## El mecanismo central de un harness

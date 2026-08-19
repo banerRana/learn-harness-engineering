@@ -25,7 +25,7 @@
   <img src="https://img.shields.io/badge/Projects-8-green?style=flat-square" alt="8 проєктів">
   <img src="https://img.shields.io/badge/Languages-15-yellow?style=flat-square" alt="15 мов">
   <img src="https://img.shields.io/badge/License-MIT-lightgrey?style=flat-square" alt="Ліцензія MIT">
-  <a href="https://discord.gg/XU7DQmpqk"><img src="https://img.shields.io/badge/Discord-Join_Community-5865F2?style=flat-square&logo=discord&logoColor=white" alt="Приєднатися до спільноти в Discord"></a>
+  <a href="https://github.com/walkinglabs"><img src="https://img.shields.io/badge/Discord-Join_Community-5865F2?style=flat-square&logo=discord&logoColor=white" alt="Приєднатися до спільноти в Discord"></a>
 </p>
 
 > 🌍 Цей курс доступний **15 мовами**: English, 简体中文, 繁體中文, 日本語, 한국어, Español, Français, Русский, Deutsch, العربية, Tiếng Việt, Oʻzbekcha, Türkçe, Portuguese (BR), Українська. Оберіть свою мову за допомогою значків вище.

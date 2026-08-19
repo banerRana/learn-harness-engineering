@@ -25,6 +25,10 @@ Choose your learning path to get started. The course is divided into theoretical
     <h3>Resource Library</h3>
     <p>Copy-ready templates (AGENTS.md, feature_list.json) to use in your own repositories.</p>
   </a>
+  <a href="./harness-designs/" class="card">
+    <h3>Frontier Harness Design Breakdowns</h3>
+    <p>How Pi, Claude Code, Codex, and DeepSeek actually design their harnesses—mapped to the course framework.</p>
+  </a>
 </div>
 
 ## The Core Mechanism of a Harness
