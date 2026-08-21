@@ -1,10 +1,12 @@
 # 拆解 Codex 的 harness 设计
 
-2026 年 8 月 19 日，OpenAI 在《[Codex as a platform: build on the open agent harness](https://developers.openai.com/blog/codex-as-a-platform)》里宣布：**把驱动 Codex 的整个 harness 以 Apache-2.0 协议全面开源**。这不是又一个 CLI 工具开源——OpenAI 把自家顶级 AI 智能体的"发动机"直接交给了开发者，让你可以在自己的产品、工程工具、运营看板里嵌入完整的智能体循环，而不是把业务流程硬塞进一个通用聊天框。
+这篇文档要区分两层：
 
-Codex 可能是四款产品里和"harness 原教旨"绑定最深的一个。那篇定义了整个领域名字的《[Harness Engineering](https://openai.com/index/harness-engineering/)》，本身就是 OpenAI 团队用 Codex 写产品时的经验总结。如今 Codex 把 harness 从"产品里的隐藏层"变成了"开源平台"，等于把那篇文章背后的工程实践连同源码一起公开了。
+**Codex 本身**：OpenAI 的 AI 编程产品，包含 CLI、App、IDE 扩展、Codex Web。其中 IDE 扩展和 Codex Web 不开源；CLI 对应的开源仓库是 [github.com/openai/codex](https://github.com/openai/codex)（Apache-2.0），这个仓库早就存在，持续迭代，到 2026-08-20 已有 9590 个提交、579 位贡献者、999 个 release，最新版本是 `0.148.0`。
 
-Codex 的哲学可以浓缩成一句话：**可复用的部分是智能体循环（agent loop），仓库即事实来源，AGENTS.md 只是目录页，工程的价值在于设计环境、表达意图、构建反馈循环。**
+**2026-08-19 新开源/更新的 harness 层**：这是本次要拆解的重点。OpenAI 当天发布博客《[Codex as a platform: build on the open agent harness](https://developers.openai.com/blog/codex-as-a-platform)》，宣布把驱动所有 Codex 体验的**底层 harness 系统**以 Apache-2.0 全面开源，并正式推出三层集成入口（`codex exec` / Codex SDK / Codex app-server）。这不是产品层面的新功能发布，而是把原来藏在产品里的"执行引擎"变成了可嵌入的开源平台。
+
+> 简单说：**Codex 产品早就有了，但 2026-08-19 才把它的 harness 以平台形式开源。**
 
 ## 一句话定位
 
