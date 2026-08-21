@@ -1,9 +1,5 @@
 # 拆解 Codex 的 harness 设计
 
-> **关于"Codex 本身"与"harness 新 commit"的区分**：本文档涉及两个时间线。
-> - **Codex 产品/实践本身**（来自 2025 年起的 [Harness Engineering](https://openai.com/index/harness-engineering/) 等文章）：AGENTS.md 目录页、worktree 隔离、spawn_agent 子智能体、审批策略等——这些是 Codex **一直就有** 的 harness 哲学，不是新 commit。
-> - **2026-08-19 的 "Codex as a platform" 新 commit**：正式将整个 harness 以 Apache-2.0 开源，并新发布/新文档化 `codex exec` 非交互模式、Codex SDK、Codex app-server（JSON-RPC 2.0 协议）、"三层集成入口"架构、以及"围绕真实工作流构建软件"的平台生态主张。以下各节会明确标注。
-
 2026 年 8 月 19 日，OpenAI 在《[Codex as a platform: build on the open agent harness](https://developers.openai.com/blog/codex-as-a-platform)》里宣布：**把驱动 Codex 的整个 harness 以 Apache-2.0 协议全面开源**。这不是又一个 CLI 工具开源——OpenAI 把自家顶级 AI 智能体的"发动机"直接交给了开发者，让你可以在自己的产品、工程工具、运营看板里嵌入完整的智能体循环，而不是把业务流程硬塞进一个通用聊天框。
 
 Codex 可能是四款产品里和"harness 原教旨"绑定最深的一个。那篇定义了整个领域名字的《[Harness Engineering](https://openai.com/index/harness-engineering/)》，本身就是 OpenAI 团队用 Codex 写产品时的经验总结。如今 Codex 把 harness 从"产品里的隐藏层"变成了"开源平台"，等于把那篇文章背后的工程实践连同源码一起公开了。
@@ -18,17 +14,15 @@ OpenAI 团队用 Codex 在几周内交付了一个最终上百万行代码的产
 
 ## harness 的价值：ARC-AGI-3 的硬数据
 
-> **信息来源**：以下数据来自 OpenAI 官方博客 [How enabling two settings tripled our scores on the ARC-AGI-3 benchmark](https://openai.com/index/how-two-settings-tripled-our-arc-agi-3-scores/)（2026-07-29）。保留推理和压缩这两项设置在 ChatGPT 和 Codex 中**早已作为默认配置在生产中使用**，但 ARC 官方评估 harness 没有启用。这次对比的目的是说明"harness 设计能改变结果"，而不是 Codex 本身新增了什么。
-
-在拆架构之前，先看 OpenAI 用来证明"harness 设计能改变结果"的一组数据：
+在拆架构之前，先看 OpenAI 用来证明"harness 设计能改变结果"的一组数据（见《[How enabling two settings tripled our scores on the ARC-AGI-3 benchmark](https://openai.com/index/how-two-settings-tripled-our-arc-agi-3-scores/)》，2026 年 7 月）：
 
 在难度极高的 ARC-AGI-3 基准测试中，官方 harness 用了滚动截断（rolling truncation）并丢弃每步的推理过程。OpenAI 只做了两项调整——**保留推理（retained reasoning）** 和 **上下文压缩（compaction）**——GPT-5.6 Sol 的得分就从 **13.3% 飙升到 38.3%**（约 3 倍），同时**输出 token 减少了 6 倍**。
 
 这个结果直接说明了课程的核心论点：评测很少只测模型，它也测了一堆看不见的 API 设置、harness 设计和提示工程。这两项设置（保留推理 + 压缩）正是 Codex 在生产环境里默认部署的方式——好的 harness 设计甚至能让模型脱胎换骨。
 
-## 平台架构：三层集成入口 **[2026-08-19 新]**
+## 平台架构：三层集成入口
 
-这是 "Codex as a platform" 公告中**新发布的架构**，也是这次开源 commit 的核心内容：Codex 不再只是一个 CLI 工具，而是一个可以选择集成深度的平台。OpenAI 官方把集成入口分成三层（见《[Codex as a platform](https://developers.openai.com/blog/codex-as-a-platform)》的 "Choose the right integration layer" 一节）：
+Codex 开源后最大的变化是：它不再只是一个 CLI 工具，而是一个可以选择集成深度的平台。OpenAI 官方把集成入口分成三层（见《[Codex as a platform](https://developers.openai.com/blog/codex-as-a-platform)》的 "Choose the right integration layer" 一节）：
 
 - **`codex exec`（非交互执行）**：跑脚本、CI 任务、一次性后台任务。运行一个有边界的 agent 工作流，返回结构化输出。支持 `--json`（JSON Lines 事件流）、`--output-schema`（按 JSON Schema 约束最终输出）、`--sandbox`（沙箱策略）、`--ephemeral`（不持久化会话）。这是"简单、粗暴、高效"的自动化入口。
 - **Codex SDK（编程式接口）**：支持 TypeScript / Python，用代码启动、恢复或流式传输 Codex 任务。适合需要精准控制线程与任务生命周期的应用程序。
@@ -50,7 +44,7 @@ OpenAI 团队用 Codex 在几周内交付了一个最终上百万行代码的产
 
 （详见官方《[Open Source](https://developers.openai.com/codex/open-source)》页面。）
 
-## 指令子系统：AGENTS.md 是目录页，不是百科全书 **[一直如此]**
+## 指令子系统：AGENTS.md 是目录页，不是百科全书
 
 这是 Codex 对 harness 理论最有影响力的一条设计：
 
@@ -62,7 +56,7 @@ OpenAI 团队用 Codex 在几周内交付了一个最终上百万行代码的产
 
 配套的原则叫**执行不变量，不要微管实现**（原文："don't micromanage the implementation；focus on invariants"）：AGENTS.md 只写不可违反的硬约束和验证命令，具体怎么实现交给模型。这直接对应课程第二讲"约束而非微操"。
 
-## 上下文子系统：Write-Select-Compress-Isolate **[一直如此]**
+## 上下文子系统：Write-Select-Compress-Isolate
 
 Codex 的上下文工程可以概括为四个策略，这是社区在 "context engineering" 成为独立学科后总结出来再映射回 Codex 的框架（框架出处见 [Context Engineering for Codex CLI](https://codex.danielvaughan.com/2026/06/10/context-engineering-codex-cli-write-select-compress-isolate-june-2026/)）：
 
@@ -73,7 +67,7 @@ Codex 的上下文工程可以概括为四个策略，这是社区在 "context e
 
 社区对 [codex-harness-internals](https://github.com/AlexKenbo/codex-harness-internals) 的源码分析还揭示了一个很细的环境上下文设计：`build_environment_update_item` 只在环境变化时输出**变更字段**（CWD、git 分支、文件系统），而不是每轮都把完整系统上下文粘一遍。这是"上下文里不养重复 token"的工程细节。
 
-## app-server：把智能体循环变成可嵌入的协议 **[2026-08-19 新]**
+## app-server：把智能体循环变成可嵌入的协议
 
 app-server 是这次开源最耀眼的组件。它让 Codex 不再是"你打开的一个工具"，而是"嵌入你产品里的引擎"。它的设计直接体现了"harness 的可复用部分是智能体循环"这一理念。
 
@@ -87,7 +81,7 @@ app-server 是这次开源最耀眼的组件。它让 Codex 不再是"你打开�
 
 **生命周期控制。** 连接后先 `initialize` 握手，再 `initialized` 确认；然后 `thread/start` 开会话、`turn/start` 驱动对话、持续读取 stdout 上的通知流（`item/started`、`item/completed`、`item/agentMessage/delta` 等）。这套生命周期把"会话状态管理 + 流式执行 + 审批处理"做成了可编程的运行时控制——产品团队可以决定 agent 在哪跑、能访问哪些文件、哪些操作要审批、怎么观察、结果怎么回到事实来源。
 
-## 工具与边界：worktree 隔离 + 子智能体 + 沙箱 **[一直如此]**
+## 工具与边界：worktree 隔离 + 子智能体 + 沙箱
 
 Codex 的核心 harness 机制：
 
@@ -97,15 +91,13 @@ Codex 的核心 harness 机制：
 
 **3. 内核级子智能体。** Codex 的 `spawn_agent` / `wait_agent` 是内核级工具：模型显式地创建子智能体、给它独立的会话历史与工具集、等待结果。子智能体继承父级的 AGENTS.md 指令，但运行在**自己的上下文**里。配置放在 `.codex/agents/*.toml`，可以指定不同模型和指令（细节见 [Context Engineering for Codex CLI](https://codex.danielvaughan.com/2026/06/10/context-engineering-codex-cli-write-select-compress-isolate-june-2026/) 的 Sub-agents 一节）。这是"上下文隔离"的直接实现——也是课程第十二讲"交接"精神的体现：每个子智能体是一个有清晰边界的工作单元。
 
-> ⚠️ **第 2 点"沙箱与审批策略"是开源新增的**：`codex exec` 的 `--sandbox` 参数（只读 / workspace-write / danger-full-access）是 2026-08-19 新发布的非交互模式的一部分；app-server 让宿主应用决定审批策略和文件访问范围，也是新暴露的集成点。worktree 隔离和子智能体则是 Codex 一直以来的实践。
-
-## 反馈子系统：验证命令写进规范 **[一直如此]**
+## 反馈子系统：验证命令写进规范
 
 OpenAI 实践里最强调的一点：在 AGENTS.md 里显式列出验证命令，把"怎么确认做对了"变成仓库的一部分。Codex 的工程流程里，测试、CI、文档、可观测性配置——全部由 Codex 生成，并且全部是"可执行的验证路径"。模型能力强但不可靠的解法，不是祈祷模型自觉，而是让**验证路径成为 harness 的默认组件**。
 
-`codex exec` 在 CI 里的用法就是这个理念的产品化：它可以跑有边界的 agent 工作流、输出 JSON Lines 事件流、按 JSON Schema 约束最终输出，天然适合接进 CI 流水线做自动修复。**[2026-08-19 新]** OpenAI 官方还提供了 [openai/codex-action](https://github.com/openai/codex-action) GitHub Action，专门为 CI 场景降低了 API key 暴露风险。
+`codex exec` 在 CI 里的用法就是这个理念的产品化：它可以跑有边界的 agent 工作流、输出 JSON Lines 事件流、按 JSON Schema 约束最终输出，天然适合接进 CI 流水线做自动修复。OpenAI 官方还提供了 [openai/codex-action](https://github.com/openai/codex-action) GitHub Action，专门为 CI 场景降低了 API key 暴露风险。
 
-## 围绕真实工作流构建软件 **[2026-08-19 新]**
+## 围绕真实工作流构建软件
 
 OpenAI 在《Codex as a platform》里反复强调的一个观点，值得单独拎出来：
 
@@ -129,13 +121,13 @@ Codex 和 Claude Code 的对比很有意思：Claude Code 是"加法"——把�
 
 ## 值得借鉴的设计
 
-1. **[一直如此]** **AGENTS.md 当目录页写**：控制在 100 行左右，指向 docs/ 里的细节，可机械化检查。
-2. **[一直如此]** **只写不变量，不微管实现**：硬约束 + 验证命令，剩下的交给模型。
-3. **[2026-08-19 新]** **保留推理 + 压缩**：别用滚动截断丢弃模型刚想的思路，用压缩保留学到的知识——ARC-AGI-3 的 3 倍提升就是证据。这项设置是 Codex 生产默认值，但直到这次开源公告才被 OpenAI 以 benchmark 对比的形式公开证明效果。
-4. **[一直如此]** **用 worktree 做环境隔离**：任务边界靠环境强制，不靠指令恳求。
-5. **[一直如此]** **环境上下文只传增量**：每轮只输出变更字段，别重复粘贴完整系统上下文。
-6. **[2026-08-19 新]** **把智能体循环做成可嵌入的协议**：Thread/Turn/Item 原语 + 生命周期控制，让产品拥有界面和审批，harness 只负责底层循环。app-server 是这次开源才正式发布的。
-7. **[一直如此]** **子智能体做上下文隔离**：拆任务的同时拆上下文，别让子任务污染主循环。
+1. **AGENTS.md 当目录页写**：控制在 100 行左右，指向 docs/ 里的细节，可机械化检查。
+2. **只写不变量，不微管实现**：硬约束 + 验证命令，剩下的交给模型。
+3. **保留推理 + 压缩**：别用滚动截断丢弃模型刚想的思路，用压缩保留学到的知识——ARC-AGI-3 的 3 倍提升就是证据。
+4. **用 worktree 做环境隔离**：任务边界靠环境强制，不靠指令恳求。
+5. **环境上下文只传增量**：每轮只输出变更字段，别重复粘贴完整系统上下文。
+6. **把智能体循环做成可嵌入的协议**：Thread/Turn/Item 原语 + 生命周期控制，让产品拥有界面和审批，harness 只负责底层循环。
+7. **子智能体做上下文隔离**：拆任务的同时拆上下文，别让子任务污染主循环。
 
 ## 参考来源（原文 / 源码）
 
