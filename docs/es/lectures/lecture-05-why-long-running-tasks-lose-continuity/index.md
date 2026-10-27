@@ -52,7 +52,7 @@ flowchart LR
 
 - **Las ventanas de contexto son finitas**: No importa qué tamaño de ventana se reclame (128K, 200K, 1M), las tareas largas eventualmente las agotarán. Tras el agotamiento, se requiere compaction (perdiendo información) o reset (nueva sesión). Ambas pierden algo.
 - **Artefactos de continuidad**: Archivos de estado persistido que permiten a una nueva sesión retomar sin ambigüedad donde la anterior lo dejó. La forma básica: registro de progreso + registro de verificación + próximas acciones. Ese diario del artesano.
-- **Costo de reconstrucción**: El tiempo que una nueva sesión necesita para alcanzar un estado ejecutable. Los buenos harness pueden comprimir el costo de reconstrucción de 15 minutos a 3 minutos.
+- **Costo de reconstrucción**: El tiempo que una nueva sesión necesita para alcanzar un estado ejecutable. Un buen harness deja el progreso, los resultados de verificación y las próximas acciones en archivos, de modo que la nueva sesión parte de un estado escrito.
 - **Deriva (Drift)**: La brecha entre la comprensión del agente y el estado real del repositorio de código. Cada límite de sesión introduce deriva; sin control, se acumula.
 - **Ansiedad de contexto**: Un fenómeno observado por Anthropic — los agentes exhiben un comportamiento de convergencia prematura cuando se acercan a los límites de contexto percibidos, terminando tareas temprano para evitar pérdida de información. Es una ansiedad irracional por los recursos.
 - **Compaction vs reset**: La compaction resume el contexto dentro de la misma sesión (conserva el "qué," puede perder el "por qué"); el reset abre una nueva sesión reconstruyendo desde artefactos persistidos (limpio pero depende de la completitud de los artefactos).
@@ -145,22 +145,22 @@ Datos reales de Anthropic: para Sonnet 4.5, la ansiedad de contexto es lo sufici
 
 > Fuente: [Anthropic: Harness design for long-running application development](https://www.anthropic.com/engineering/harness-design-long-running-apps)
 
-## Ejemplo del mundo real
+## Anthropic: relevo entre sesiones de programación
 
-Un agente fue encargado de implementar un sistema de blog con autenticación de usuarios — 12 puntos de funcionalidad, estimadas 5 sesiones necesarias.
+Anthropic describe una réplica del sitio de Claude cuyo agente inicializador definió más de 200 funciones, marcadas inicialmente como no superadas. También creó init.sh, un archivo de progreso y un commit inicial. Las sesiones posteriores leían el progreso y el historial de Git, implementaban funciones de forma incremental, verificaban el comportamiento y dejaban actualizaciones para la siguiente sesión.
 
-**Línea base sin el diario**: La sesión 1 implementó el modelo de usuario y las rutas básicas. La sesión 2 comenzó sin que el agente recordara el contrato de interfaz del middleware de autenticación, dedicando ~15 minutos a inferir la intención de diseño anterior. Para la sesión 3, la deriva acumulada hizo que el agente comenzara a reimplementar funcionalidades ya completadas. Para la sesión 5, el repositorio contenía mucho código redundante pero la funcionalidad central de autenticación todavía no había pasado las pruebas end-to-end. Solo 7 de 12 puntos de funcionalidad completados, 3 con problemas ocultos de corrección. Como el artesano que nunca escribe en su diario — para el día cinco, el sitio de construcción es un caos, algunas paredes construidas dos veces, algunas que debieron construirse nunca se empezaron.
+El caso documenta un mecanismo de continuidad, no los porcentajes de finalización, defectos o reconstrucción citados anteriormente aquí. El código complementario es una simulación didáctica, no una medición del modelo.
 
-**Con el diario**: Usando archivos de progreso, registros de decisiones, registros de verificación y puntos de control de git. El informe de estado se actualizó automáticamente al final de cada sesión. El costo de reconstrucción de la sesión 2 bajó a ~3 minutos. Para la sesión 5, los 12 puntos de funcionalidad fueron completados y verificados.
+[Anthropic](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
 
-Comparación cuantitativa: tiempo de reconstrucción reducido ~78%, tasa de completitud de funcionalidades del 58% al 100%, tasa de defectos ocultos del 43% al 8%. El artesano sigue siendo amnésico, pero con el diario, cada día comienza donde el anterior se detuvo, no desde cero.
+LangChain informa de una mejora de 52,8% a 66,5%, 13,7 puntos porcentuales, usando el mismo gpt-5.2-codex en Terminal Bench 2.0, con 89 tareas. Cambió las instrucciones de verificación, middleware y gestión del contexto. Es el resultado conjunto de varios cambios del harness, no solo de archivos de progreso. [LangChain: Improving Deep Agents](https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering)
 
 ## Ideas clave
 
 - Las ventanas de contexto son un recurso finito. Las tareas largas abarcarán sesiones, y las sesiones perderán información — como el artesano que olvida cada día, esto es una realidad objetiva.
 - La solución no son ventanas más grandes — es mejor persistencia del estado. Archivos de progreso + registros de decisiones + puntos de control de git — dale al artesano amnésico un diario confiable.
 - Trata al agente como un ingeniero con amnesia: antes de "terminar el turno," escribe qué se hizo, por qué y qué sigue.
-- El costo de reconstrucción es la métrica clave. Los buenos harness deberían llevar a las nuevas sesiones a un estado ejecutable en menos de 3 minutos.
+- El costo de reconstrucción es la métrica clave. Un buen harness deja el progreso, los resultados de verificación y las próximas acciones en archivos, de modo que una nueva sesión se recupera rápido.
 - Estrategia mixta: tareas cortas dentro de las sesiones, tareas largas con artefactos estructurados para la continuidad.
 
 ## Lecturas adicionales
@@ -170,6 +170,8 @@ Comparación cuantitativa: tiempo de reconstrucción reducido ~78%, tasa de comp
 - [Lost in the Middle: How Language Models Use Long Contexts](https://arxiv.org/abs/2307.03172)
 - [Claude Code Documentation](https://docs.anthropic.com/es/docs/claude-code)
 - [HumanLayer: Harness Engineering for Coding Agents](https://www.humanlayer.dev/blog/skill-issue-harness-engineering-for-coding-agents)
+
+- [LangChain: Improving Deep Agents](https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering)
 
 ## Ejercicios
 

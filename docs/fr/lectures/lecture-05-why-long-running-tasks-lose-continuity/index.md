@@ -52,7 +52,7 @@ flowchart LR
 
 - **Les fenêtres de contexte sont finies** : Quelle que soit la taille de fenêtre annoncée (128K, 200K, 1M), les tâches longues finiront par les épuiser. Après épuisement, soit la compaction (perte d'informations) soit la réinitialisation (nouvelle session) est nécessaire. Les deux perdent quelque chose.
 - **Artefacts de continuité** : Fichiers d'état persistés qui permettent à une nouvelle session de reprendre sans ambiguïté là où la précédente s'est arrêtée. La forme de base : journal de progression + enregistrement de vérification + actions suivantes. Le journal de l'artisan.
-- **Coût de reconstruction** : Le temps nécessaire à une nouvelle session pour atteindre un état exécutable. Les bons harness peuvent comprimer le coût de reconstruction de 15 minutes à 3 minutes.
+- **Coût de reconstruction** : Le temps nécessaire à une nouvelle session pour atteindre un état exécutable. Un bon harness laisse la progression, les résultats de vérification et les prochaines actions dans des fichiers, pour que la nouvelle session démarre depuis un état écrit.
 - **Dérive** : L'écart entre la compréhension de l'agent et l'état réel du dépôt de code. Chaque frontière de session introduit de la dérive ; sans contrôle, elle se cumule.
 - **Anxiété de contexte** : Un phénomène observé par Anthropic — les agents présentent un comportement de convergence prématurée à l'approche des limites de contexte perçues, terminant les tâches prématurément pour éviter la perte d'informations. C'est une anxiété irrationnelle face aux ressources.
 - **Compaction vs réinitialisation** : La compaction résume le contexte au sein de la même session (conserve le « quoi », peut perdre le « pourquoi ») ; la réinitialisation ouvre une nouvelle session reconstruisant à partir de l'état persisté (propre mais dépend de l'exhaustivité des artefacts).
@@ -145,22 +145,22 @@ Les données réelles d'Anthropic : pour Sonnet 4.5, l'anxiété de contexte est
 
 > Source : [Anthropic: Harness design for long-running application development](https://www.anthropic.com/engineering/harness-design-long-running-apps)
 
-## Exemple concret
+## Anthropic : transmission entre sessions de développement
 
-Un agent a été chargé d'implémenter un système de blog avec authentification utilisateur — 12 points de fonctionnalité, estimation de 5 sessions nécessaires.
+Anthropic décrit une reproduction du site Claude dont l’agent initialisateur a défini plus de 200 fonctionnalités, initialement marquées comme non validées. Il a aussi créé init.sh, un fichier d’avancement et un premier commit Git. Les sessions suivantes lisaient l’avancement et l’historique Git, réalisaient les fonctionnalités progressivement, vérifiaient leur comportement et laissaient des mises à jour.
 
-**Baseline sans le journal** : La session 1 a implémenté le modèle utilisateur et les routes de base. La session 2 a démarré sans que l'agent se souvienne du contrat d'interface du middleware d'authentification, passant ~15 minutes à déduire l'intention de conception précédente. Dès la session 3, la dérive accumulée a poussé l'agent à réimplémenter des fonctionnalités déjà complétées. À la session 5, le repo contenait beaucoup de code redondant mais la fonctionnalité d'authentification principale n'avait toujours pas passé les tests de bout en bout. Seulement 7 des 12 points de fonctionnalité complétés, dont 3 avec des problèmes de correction cachés. Comme l'artisan qui n'écrit jamais dans son journal — au cinquième jour, le chantier est chaotique, certains murs construits deux fois, d'autres qui auraient dû l'être ne sont même pas commencés.
+Ce cas décrit un mécanisme de continuité, pas les pourcentages de réalisation, de défauts ou de reconstruction précédemment cités ici. Le code associé est une simulation pédagogique, pas une mesure des performances du modèle.
 
-**Avec le journal** : Utilisation de fichiers de progression, journaux de décisions, enregistrements de vérification et points de contrôle git. Le rapport d'état mis à jour automatiquement à la fin de chaque session. Le coût de reconstruction de la session 2 est tombé à ~3 minutes. À la session 5, les 12 points de fonctionnalité étaient complétés et vérifiés.
+[Anthropic](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
 
-Comparaison quantitative : temps de reconstruction réduit de ~78 %, taux de complétion des fonctionnalités de 58 % à 100 %, taux de défauts cachés de 43 % à 8 %. L'artisan est toujours amnésique, mais avec le journal, chaque jour commence là où celui d'hier s'est arrêté, pas à zéro.
+LangChain rapporte un score passant de 52,8% à 66,5%, soit 13,7 points, avec le même gpt-5.2-codex sur Terminal Bench 2.0 et ses 89 tâches. Les changements portaient sur la vérification, le middleware et la gestion du contexte. Ce résultat combine plusieurs modifications du harness ; il ne mesure pas le seul effet des fichiers d’avancement. [LangChain: Improving Deep Agents](https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering)
 
 ## Points clés
 
 - Les fenêtres de contexte sont une ressource finie. Les tâches longues s'étaleront sur plusieurs sessions, et les sessions perdront de l'information — comme l'artisan qui oublie chaque jour, c'est une réalité objective.
 - La solution n'est pas des fenêtres plus grandes — c'est une meilleure persistance de l'état. Fichiers de progression + journaux de décisions + points de contrôle git — donnez à l'artisan amnésique un journal fiable.
 - Traitez l'agent comme un ingénieur atteint d'amnésie : avant de « terminer sa journée », notez ce qui a été fait, pourquoi, et ce qui reste à faire.
-- Le coût de reconstruction est la métrique clé. Les bons harness devraient amener les nouvelles sessions à un état exécutable en moins de 3 minutes.
+- Le coût de reconstruction est la métrique clé. Un bon harness laisse la progression, les résultats de vérification et les prochaines actions dans des fichiers, pour qu'une nouvelle session récupère rapidement.
 - Stratégie mixte : tâches courtes en session, tâches longues avec des artefacts structurés pour la continuité.
 
 ## Pour aller plus loin
@@ -170,6 +170,8 @@ Comparaison quantitative : temps de reconstruction réduit de ~78 %, taux de com
 - [Lost in the Middle: How Language Models Use Long Contexts](https://arxiv.org/abs/2307.03172)
 - [Claude Code Documentation](https://docs.anthropic.com/fr/docs/claude-code)
 - [HumanLayer: Harness Engineering for Coding Agents](https://www.humanlayer.dev/blog/skill-issue-harness-engineering-for-coding-agents)
+
+- [LangChain: Improving Deep Agents](https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering)
 
 ## Exercices
 

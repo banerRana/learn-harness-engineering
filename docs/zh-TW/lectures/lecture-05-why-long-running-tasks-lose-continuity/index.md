@@ -50,7 +50,7 @@ flowchart LR
 
 - **脈絡視窗是有限的**：不管模型吹多大的視窗（128K、200K、1M），長任務總會用完。用完之後要麼壓縮（丟資訊），要麼重置（開新工作階段）。兩種方式都會丟東西。
 - **連續性工件**：持久化的狀態檔案，讓新工作階段能無歧義地恢復到上次離開的地方。最基本的形式：進度日誌 + 驗證記錄 + 下一步行動。
-- **重建成本**：新工作階段恢復到可執行狀態所需的時間。好的 harness 能把重建成本從 15 分鐘壓到 3 分鐘。
+- **重建成本**：新工作階段恢復到可執行狀態所需的時間。好的 harness 會把進度、驗證結果和下一步寫進檔案，讓新工作階段從寫下來的狀態開始。
 - **漂移（Drift）**：agent 的理解跟程式碼儲存庫實際狀態之間的偏差。每次工作階段邊界都會引入漂移，不加控制會越漂越遠。
 - **脈絡焦慮**：Anthropic 觀察到的現象，agent 在接近脈絡限制時表現異常，過早結束任務以避免資訊遺失。是一種非理性的資源焦慮。
 - **壓縮 vs 重置**：壓縮是在同一個工作階段裡把脈絡摘要化（保留「是什麼」，可能丟了「為什麼」）；重置是開新工作階段從持久化狀態重建（乾淨但依賴工件完備性）。
@@ -143,22 +143,22 @@ Anthropic 的實際資料：對於 Sonnet 4.5，脈絡焦慮足夠嚴重，以�
 
 > 來源：[Anthropic: Harness design for long-running application development](https://www.anthropic.com/engineering/harness-design-long-running-apps)
 
-## 實際案例
+## Anthropic：跨編碼工作階段的交接
 
-一個 agent 被要求實作一個帶使用者認證的部落格系統，12 個功能點，預計需要 5 個工作階段。
+Anthropic 介紹了一個 Claude 網站複製案例：初始化 agent 將需求展開為 200 多項功能，初始狀態都標為未通過，同時建立 init.sh、進度檔案和初始 Git 提交。後續編碼工作階段讀取進度和 Git 歷史，逐步實作功能、驗證行為，再為下一次工作階段留下更新。
 
-**沒有日記本的基線**：工作階段 1 實作了使用者模型和基礎路由。工作階段 2 開始時，agent 不記得認證中間件的介面約定，花了約 15 分鐘推斷上次的設計意圖。到工作階段 3，累積漂移導致 agent 開始重複已實作的功能。到工作階段 5，儲存庫有大量冗餘程式碼，但核心認證功能仍未通過端對端測試。12 個功能點只完成了 7 個，其中 3 個有隱含的正確性問題。
+這個案例記錄的是連續性機制，沒有報告先前這段文字中的功能完成率、隱藏缺陷率和脈絡重建耗時比例。配套程式碼用於教學模擬，不是模型效能實測。
 
-**有日記本的對照**：使用進度檔案、決策日誌、驗證記錄和 git 檢查點。每個工作階段結束時自動更新狀態報告。工作階段 2 的重建成本降到約 3 分鐘。到工作階段 5，所有 12 個功能點完成且通過驗證。
+[Anthropic](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
 
-定量對比，重建時間減少約 78%，功能完成率從 58% 提升到 100%，隱含缺陷率從 43% 降到 8%。
+LangChain 報告了一組真實的 harness 改進結果：固定使用 gpt-5.2-codex，在包含 89 個任務的 Terminal Bench 2.0 上，得分從 52.8% 提升到 66.5%，提高 13.7 個百分點。改動包括驗證指導、中介軟體和脈絡管理。這是多項 harness 調整的整體結果，不能單獨歸因於進度檔案。 [LangChain: Improving Deep Agents](https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering)
 
 ## 關鍵要點
 
 - 脈絡視窗是有限的資源。長任務一定會跨工作階段，跨工作階段一定會丟資訊，這是客觀現實。
 - 解決方案在於更好的狀態持久化，而非更大的視窗。進度檔案 + 決策日誌 + git 檢查點，讓每個工作階段都能從可靠的記錄起步。
 - 把 agent 當成會失憶的工程師來管理：每次「下班」前寫清楚做了什麼、為什麼、下一步做什麼。
-- 重建成本是關鍵指標。好的 harness 應該讓新工作階段在 3 分鐘內恢復到可執行狀態。
+- 重建成本是關鍵指標。好的 harness 會把進度、驗證結果和下一步寫進檔案，讓新工作階段快速恢復。
 - 混合策略：短任務在工作階段內完成，長任務用結構化工件維持連續性。
 
 ## 延伸閱讀
@@ -168,6 +168,8 @@ Anthropic 的實際資料：對於 Sonnet 4.5，脈絡焦慮足夠嚴重，以�
 - [Lost in the Middle: How Language Models Use Long Contexts](https://arxiv.org/abs/2307.03172)
 - [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code)
 - [HumanLayer: Harness Engineering for Coding Agents](https://www.humanlayer.dev/blog/skill-issue-harness-engineering-for-coding-agents)
+
+- [LangChain: Improving Deep Agents](https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering)
 
 ## 練習
 

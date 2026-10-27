@@ -50,7 +50,7 @@ flowchart LR
 
 - **Context windows are finite**: No matter what window size is claimed (128K, 200K, 1M), long tasks will eventually exhaust them. After exhaustion, either compaction (losing information) or reset (starting a new session) is required — both lose something.
 - **State persistence files**: Persisted state files that let a new session unambiguously resume where the last one left off. The most basic form includes progress logs, verification records, and next actions.
-- **Rebuild cost**: The time a new session needs to reach an executable state. A good harness can compress rebuild cost from 15 minutes to 3 minutes.
+- **Rebuild cost**: The time a new session needs to reach an executable state. A good harness leaves progress, verification results, and next actions in files, so the new session starts from a written state.
 - **Drift**: The gap between the agent's understanding and the actual state of the code repository. Every session boundary introduces drift; without control, it compounds session after session.
 - **Context anxiety**: A phenomenon observed by Anthropic — agents exhibit rushed finish behavior when approaching context limits, ending tasks early to avoid information loss. At its core, it's an irrational resource anxiety.
 - **Compaction vs. reset**: Compaction summarizes context within the same session (keeps "what," may lose "why"); reset opens a new session rebuilding from persisted state (clean but depends on artifact completeness).
@@ -143,22 +143,22 @@ Anthropic's actual data: for Sonnet 4.5, context anxiety is severe enough that c
 
 > Source: [Anthropic: Harness design for long-running application development](https://www.anthropic.com/engineering/harness-design-long-running-apps)
 
-## Real-World Example
+## Anthropic: Handoff Across Coding Sessions
 
-An agent was tasked with implementing a blog system with user authentication — 12 feature points, estimated 5 sessions needed.
+Anthropic describes a Claude website clone whose initializer expanded the specification into more than 200 features, initially marked as failing. The initializer also created init.sh, a progress file, and an initial git commit. Subsequent coding sessions read progress and git history, worked incrementally on features, verified behavior, and left updates for the next session.
 
-**Baseline without state persistence files**: Session 1 implemented the user model and basic routes. Session 2 started without the agent remembering the auth middleware's interface contract, spending ~15 minutes inferring the previous design intent. By session 3, accumulated drift caused the agent to start reimplementing already-completed features. By session 5, the repo contained lots of redundant code but the core auth feature still hadn't passed end-to-end tests. Only 7 of 12 feature points completed, 3 with hidden correctness issues.
+This case documents a continuity mechanism; it does not report the feature-completion, hidden-defect, or context-rebuild percentages previously shown here. The companion code is a teaching simulation, not a measurement of model performance.
 
-**With state persistence files**: Using progress files, decision logs, verification records, and git checkpoints. State report updated automatically at each session end. Session 2's rebuild cost dropped to ~3 minutes. By session 5, all 12 feature points completed and verified.
+[Anthropic](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
 
-Quantitative comparison: rebuild time reduced ~78%, feature completion rate from 58% to 100%, hidden defect rate from 43% down to 8%.
+LangChain reports an actual harness improvement using the same gpt-5.2-codex model on Terminal Bench 2.0, an 89-task benchmark: the score rose from 52.8% to 66.5%, a gain of 13.7 percentage points. Changes included verification guidance, middleware, and context management. This is a result for several harness changes together, not a measured benefit of progress files alone. [LangChain: Improving Deep Agents](https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering)
 
 ## Key Takeaways
 
 - Context windows are a finite resource. Long tasks will span sessions, and sessions will lose information — this is objective reality.
 - The solution isn't bigger windows — it's better state persistence. Progress files, decision logs, and git checkpoints work together to let new sessions pick up where previous ones left off.
 - Treat the agent like an engineer whose short-term memory gets wiped every session: before "clocking out," write down what was done, why, and what's next.
-- Rebuild cost is the key metric. A good harness should get new sessions to an executable state within 3 minutes.
+- Rebuild cost is the key metric. A good harness leaves progress, verification results, and next actions in files, so a new session recovers quickly.
 - Mixed strategy: short tasks within sessions, long tasks with structured artifacts for continuity.
 
 ## Further Reading
@@ -168,6 +168,8 @@ Quantitative comparison: rebuild time reduced ~78%, feature completion rate from
 - [Lost in the Middle: How Language Models Use Long Contexts](https://arxiv.org/abs/2307.03172)
 - [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code)
 - [HumanLayer: Harness Engineering for Coding Agents](https://www.humanlayer.dev/blog/skill-issue-harness-engineering-for-coding-agents)
+
+- [LangChain: Improving Deep Agents](https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering)
 
 ## Exercises
 

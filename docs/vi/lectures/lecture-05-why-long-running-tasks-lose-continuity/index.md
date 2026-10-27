@@ -52,7 +52,7 @@ flowchart LR
 
 - **Cửa sổ ngữ cảnh là hữu hạn**: Dù kích thước cửa sổ được quảng bá là bao nhiêu (128K, 200K, 1M), tác vụ dài rồi cũng sẽ cạn kiệt. Sau khi cạn, chỉ có hai lối: nén (mất thông tin) hoặc reset (mở phiên mới), cả hai đều mất thứ gì đó.
 - **Tệp lưu trữ trạng thái (State persistence files)**: Các tệp trạng thái được lưu lại, để phiên mới có thể tiếp tục rõ ràng ngay từ chỗ phiên trước dừng lại. Dạng cơ bản nhất gồm nhật ký tiến độ, bản ghi xác minh và các bước kế tiếp.
-- **Chi phí tái thiết lập (Rebuild cost)**: Thời gian phiên mới cần để đạt tới trạng thái có thể thực thi. Một harness tốt có thể nén chi phí này từ 15 phút xuống còn 3 phút.
+- **Chi phí tái thiết lập (Rebuild cost)**: Thời gian phiên mới cần để đạt tới trạng thái có thể thực thi. Một harness tốt để lại tiến độ, kết quả xác minh và các bước kế tiếp trong tệp, để phiên mới bắt đầu từ một trạng thái đã được viết ra.
 - **Trôi dạt (Drift)**: Khoảng cách giữa hiểu biết của agent và trạng thái thật của kho lưu trữ code. Mỗi ranh giới phiên lại tạo ra trôi dạt; không kiểm soát, nó sẽ tích tụ qua từng phiên.
 - **Lo lắng ngữ cảnh (Context anxiety)**: Hiện tượng Anthropic quan sát thấy: agent thể hiện hành vi vội vàng kết thúc khi ngữ cảnh gần tới giới hạn, kết thúc tác vụ sớm để tránh mất thông tin. Bản chất là sự lo lắng tài nguyên vô lý.
 - **Nén so với đặt lại (Compaction vs. reset)**: Nén tóm tắt ngữ cảnh trong cùng phiên (giữ "cái gì", có thể mất "vì sao"); đặt lại mở phiên mới, tái thiết lập từ trạng thái đã lưu (sạch sẽ nhưng phụ thuộc vào độ đầy đủ của các artifact).
@@ -145,22 +145,22 @@ Dữ liệu thực tế từ Anthropic: với Sonnet 4.5, context anxiety nghiê
 
 > Nguồn: [Anthropic: Harness design for long-running application development](https://www.anthropic.com/engineering/harness-design-long-running-apps)
 
-## Ví dụ thật
+## Anthropic: bàn giao giữa các phiên lập trình
 
-Một agent được giao triển khai hệ thống blog có xác thực người dùng, 12 điểm tính năng, ước tính cần 5 phiên.
+Anthropic mô tả một bản sao trang Claude: agent khởi tạo xác định hơn 200 tính năng và ban đầu đánh dấu tất cả là chưa đạt. Agent cũng tạo init.sh, tệp tiến độ và commit Git đầu tiên. Các phiên sau đọc tiến độ cùng lịch sử Git, triển khai từng phần, kiểm tra hành vi và để lại cập nhật cho phiên kế tiếp.
 
-**Baseline không có tệp lưu trữ trạng thái**: Phiên 1 triển khai user model và các route cơ bản. Phiên 2 mở ra mà agent chẳng nhớ hợp đồng giao diện của auth middleware, tốn khoảng 15 phút để dò lại ý đồ thiết kế trước đó. Đến phiên 3, trôi dạt tích tụ khiến agent bắt đầu triển khai lại các tính năng đã hoàn thành. Sang phiên 5, repo chứa nhiều code thừa nhưng tính năng auth cốt lõi vẫn chưa qua được test end-to-end. Chỉ 7 trên 12 điểm tính năng hoàn thành, trong đó 3 điểm có lỗi ngầm.
+Ví dụ này mô tả cơ chế liên tục, không báo cáo các tỷ lệ hoàn thành, lỗi ẩn hoặc thời gian khôi phục ngữ cảnh từng xuất hiện ở đây. Mã đi kèm là mô phỏng giảng dạy, không phải phép đo hiệu năng mô hình.
 
-**Có tệp lưu trữ trạng thái**: Dùng tệp tiến độ, nhật ký quyết định, bản ghi xác minh và git checkpoint. Báo cáo trạng thái tự động cập nhật ở cuối mỗi phiên. Chi phí tái thiết lập của phiên 2 giảm xuống còn khoảng 3 phút. Đến phiên 5, đủ cả 12 điểm tính năng được hoàn thành và xác minh.
+[Anthropic](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
 
-So sánh định lượng: thời gian tái thiết lập giảm khoảng 78%, tỷ lệ hoàn thành tính năng từ 58% lên 100%, tỷ lệ lỗi ngầm từ 43% giảm còn 8%.
+LangChain báo cáo điểm tăng từ 52,8% lên 66,5%, tức 13,7 điểm phần trăm, với cùng gpt-5.2-codex trên 89 nhiệm vụ Terminal Bench 2.0. Thay đổi gồm hướng dẫn kiểm tra, middleware và quản lý ngữ cảnh. Đây là kết quả tổng hợp nhiều thay đổi harness, không riêng tệp tiến độ. [LangChain: Improving Deep Agents](https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering)
 
 ## Những điểm chính cần nhớ
 
 - Cửa sổ ngữ cảnh là tài nguyên hữu hạn. Tác vụ dài sẽ trải qua nhiều phiên, và các phiên sẽ mất thông tin, đó là thực tế khách quan.
 - Giải pháp không phải cửa sổ lớn hơn, mà là lưu trữ trạng thái tốt hơn. Tệp tiến độ, nhật ký quyết định và git checkpoint phối hợp với nhau, để phiên mới nối tiếp phiên cũ.
 - Hãy đối xử với agent như một kỹ sư bị xóa trắng bộ nhớ ngắn hạn mỗi phiên: trước khi "tan ca", phải ghi lại đã làm gì, vì sao, và bước tiếp theo là gì.
-- Chi phí tái thiết lập là chỉ số then chốt. Một harness tốt cần đưa phiên mới vào trạng thái có thể thực thi trong vòng 3 phút.
+- Chi phí tái thiết lập là chỉ số then chốt. Một harness tốt để lại tiến độ, kết quả xác minh và các bước kế tiếp trong tệp, để phiên mới phục hồi nhanh chóng.
 - Chiến lược hỗn hợp: tác vụ ngắn xử lý trong phiên, tác vụ dài dùng artifact có cấu trúc để duy trì tính liên tục.
 
 ## Đọc thêm
@@ -170,6 +170,8 @@ So sánh định lượng: thời gian tái thiết lập giảm khoảng 78%, t
 - [Lost in the Middle: How Language Models Use Long Contexts](https://arxiv.org/abs/2307.03172)
 - [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code)
 - [HumanLayer: Harness Engineering for Coding Agents](https://www.humanlayer.dev/blog/skill-issue-harness-engineering-for-coding-agents)
+
+- [LangChain: Improving Deep Agents](https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering)
 
 ## Bài tập
 

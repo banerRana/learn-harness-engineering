@@ -52,7 +52,7 @@ flowchart LR
 
 - **Kontekst oynalari cheklangan**: Qanday oyna oʻlchami daʼvo qilinmasin (128K, 200K, 1M), uzoq davom etadigan vazifalar oxir-oqibat ularni yeb tugatadi. Tugagandan soʻng, zichlash (maʼlumot yoʻqotish) yoki qayta ishga tushirish (yangi sessiya) talab qilinadi. Ikkalasida ham nimanidir yoʻqotasiz.
 - **Uzluksizlik artefaktlari (Continuity artifacts)**: Yangi sessiyaga oxirgi sessiya toʻxtagan joydan hech qanday noaniqliksiz davom ettirish imkonini beruvchi doimiy saqlangan holat fayllari. Asosiy shakli: jarayon jurnali + tekshiruv qaydnomasi + keyingi qadamlar. Oʻsha ustaning kundaligi kabi.
-- **Tiklash narxi (Rebuild cost)**: Yangi sessiyaning bajariladigan holatga kelishi uchun kerak boʻladigan vaqt. Yaxshi harnessʼlar tiklash narxini 15 daqiqadan 3 daqiqagacha qisqartirishi mumkin.
+- **Tiklash narxi (Rebuild cost)**: Yangi sessiyaning bajariladigan holatga kelishi uchun kerak boʻladigan vaqt. Yaxshi harnessʼ jarayon, tekshiruv natijalari va keyingi qadamlarni fayllarda qoldiradi, shunda yangi sessiya yozib qoʻyilgan holatdan boshlaydi.
 - **Siljish (Drift)**: Agentʼning tushunchasi va kod repozitoriysining haqiqiy holati oʻrtasidagi farq. Har bir sessiya chegarasi siljishni keltirib chiqaradi; nazoratsiz u tobora ortib boradi.
 - **Kontekst xavotiri (Context anxiety)**: Anthropic tomonidan kuzatilgan hodisa — agentlar idrok qilinayotgan kontekst chegaralariga yaqinlashganda erta yakunlash xatti-harakatlarini namoyish etadilar, maʼlumot yoʻqotilishining oldini olish uchun vazifalarni erta yakunlaydilar. Bu asossiz resurs xavotiridir.
 - **Zichlash va qayta ishga tushirish (Compaction vs reset)**: Zichlash joriy sessiya ichidagi kontekstni xulosalaydi (“nima” saqlanadi, lekin “nega” yoʻqolishi mumkin); qayta ishga tushirish esa doimiy saqlangan holatdan tiklanadigan yangi sessiyani ochadi (toza, lekin artefaktlarning toʻliqligiga bogʻliq).
@@ -145,22 +145,22 @@ Anthropicʼning real maʼlumotlari: Sonnet 4.5 uchun kontekst xavotiri shu qadar
 
 > Manba: [Anthropic: Uzoq vaqt ishlovchi dasturlar uchun harness dizayni (Harness design for long-running application development)](https://www.anthropic.com/engineering/harness-design-long-running-apps)
 
-## Hayotiy misol
+## Anthropic: kodlash sessiyalari orasida topshirish
 
-Agentʼga foydalanuvchi autentifikatsiyasiga ega blog tizimini yaratish topshirildi — 12 ta funksionallik (feature point), bajarish uchun 5 ta sessiya hisoblangan.
+Anthropic Claude sayti nusxasida boshlang‘ich agent 200 dan ortiq funksiyani belgilab, avval barchasini tekshiruvdan o‘tmagan deb qayd etganini tushuntiradi. U init.sh, jarayon fayli va dastlabki Git commit’ini ham yaratgan. Keyingi sessiyalar jarayon va Git tarixini o‘qib, funksiyalarni bosqichma-bosqich amalga oshirgan, tekshirgan va keyingi sessiya uchun yangilik qoldirgan.
 
-**Kundaliksiz boshlangʻich holat**: 1-sessiya foydalanuvchi modeli va asosiy routeʼlarni amalga oshirdi. 2-sessiya auth middlewareʼning interfeys shartnomasi (contract) esdan chiqqan holatda boshlandi va oldingi dizayn maqsadini taxmin qilish uchun ~15 daqiqa sarfladi. 3-sessiyaga kelib, toʻplangan siljish (drift) agentʼni allaqachon tugatilgan funksiyalarni qaytadan yaratishga olib keldi. 5-sessiyaga kelib, repoda juda koʻp ortiqcha kodlar bor edi, lekin asosiy auth funksiyasi haligacha E2E testlaridan (end-to-end tests) oʻtmagan edi. 12 ta funksionallikdan faqat 7 tasi tugallandi, shundan 3 tasida yashirin toʻgʻrilik muammolari mavjud edi. Xuddi kundalik tutmaydigan ustaga oʻxshaydi — beshinchi kunga kelib, qurilish maydonchasida betartiblik, baʼzi devorlar ikki marta qurilgan, qurilishi kerak boʻlganlari esa umuman boshlanmagan.
+Bu misol uzluksizlik mexanizmini hujjatlashtiradi; bu yerda avval keltirilgan tugallanish, yashirin xato yoki kontekstni qayta tiklash foizlarini bermaydi. Qo‘shimcha kod o‘quv simulyatsiyasi, model samaradorligi o‘lchovi emas.
 
-**Kundalik bilan holat**: Jarayon fayllari, qarorlar jurnallari, tekshiruv (verification) qaydlari va git checkpointʼlaridan foydalanilgan. Holat haqidagi hisobot har bir sessiya oxirida avtomatik ravishda yangilanadi. 2-sessiyani tiklash narxi (rebuild cost) ~3 daqiqaga tushdi. 5-sessiyaga kelib, barcha 12 ta funksionallik tugallandi va tekshirildi.
+[Anthropic](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
 
-Miqdoriy taqqoslash: tiklash vaqti ~78% ga qisqardi, funksiyalarning tugallanish darajasi 58% dan 100% ga koʻtarildi, yashirin nuqsonlar darajasi 43% dan 8% gacha pasaydi. Usta hamon amneziyaga chalingan, ammo kundaligi tufayli har bir kun noldan emas, balki kecha toʻxtagan joyidan boshlanadi.
+LangChain bir xil gpt-5.2-codex bilan 89 vazifali Terminal Bench 2.0 natijasi 52,8% dan 66,5% ga, 13,7 foiz punktga oshganini bildiradi. Tekshiruv ko‘rsatmalari, middleware va kontekst boshqaruvi birgalikda o‘zgargan. Bu bir nechta harness o‘zgarishining umumiy natijasi, faqat jarayon fayllarining ta’siri emas. [LangChain: Improving Deep Agents](https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering)
 
 ## Asosiy xulosalar
 
 - Kontekst oynalari cheklangan resursdir. Uzoq vazifalar sessiyalarga boʻlinadi, va sessiyalarda maʼlumot yoʻqoladi — har kuni hamma narsani unutadigan usta kabi, bu obyektiv haqiqatdir.
 - Yechim kattaroq oynalar emas — bu holatni saqlashni yaxshilash. Jarayon fayllari + qaror jurnallari + git checkpointʼlari — amneziyali ustaga ishonchli kundalik bering.
 - Agentʼga xotirasini yoʻqotgan muhandis kabi munosabatda boʻling: u “ishni tugatishidan” (clock out) oldin, nima qilingani, nega qilingani va keyingi nima ekanini yozib qoldirsin.
-- Tiklash narxi (rebuild cost) asosiy koʻrsatkichdir. Yaxshi harnessʼlar yangi sessiyani 3 daqiqa ichida ishga tushiradigan holatga keltirishi kerak.
+- Tiklash narxi (rebuild cost) asosiy koʻrsatkichdir. Yaxshi harnessʼ jarayon, tekshiruv natijalari va keyingi qadamlarni fayllarda qoldiradi, shunda yangi sessiya tezda tiklanadi.
 - Aralash strategiya (Mixed strategy): qisqa vazifalar bitta sessiyada, uzoq davom etadigan vazifalar uzluksizlik uchun tizimli artefaktlar bilan sessiyalararo.
 
 ## Qoʻshimcha oʻqish uchun
@@ -170,6 +170,8 @@ Miqdoriy taqqoslash: tiklash vaqti ~78% ga qisqardi, funksiyalarning tugallanish
 - [Lost in the Middle: How Language Models Use Long Contexts](https://arxiv.org/abs/2307.03172)
 - [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code)
 - [HumanLayer: Harness Engineering for Coding Agents](https://www.humanlayer.dev/blog/skill-issue-harness-engineering-for-coding-agents)
+
+- [LangChain: Improving Deep Agents](https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering)
 
 ## Mashqlar
 

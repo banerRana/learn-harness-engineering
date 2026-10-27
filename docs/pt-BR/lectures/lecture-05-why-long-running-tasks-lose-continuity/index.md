@@ -49,7 +49,7 @@ flowchart LR
 
 * **Janelas de contexto são finitas**: Não importa o tamanho anunciado da janela (128K, 200K, 1M de tokens), tarefas longas eventualmente irão esgotá-la. Quando isso acontece, é necessário realizar uma compactação do contexto (com perda de informações) ou iniciar uma nova sessão — e ambas as opções implicam algum tipo de perda.
 * **Arquivos de persistência de estado**: Arquivos que armazenam o estado atual do trabalho e permitem que uma nova sessão retome exatamente de onde a anterior parou. Na forma mais simples, incluem registros de progresso, resultados de verificações e próximos passos.
-* **Custo de reconstrução** (*rebuild cost*): O tempo necessário para que uma nova sessão alcance um estado em que consiga executar trabalho de forma produtiva. Um bom *harness* pode reduzir esse tempo de 15 minutos para apenas 3 minutos.
+* **Custo de reconstrução** (*rebuild cost*): O tempo necessário para que uma nova sessão alcance um estado em que consiga executar trabalho de forma produtiva. Um bom *harness* deixa o progresso, os resultados de verificação e os próximos passos em arquivos, para que a nova sessão comece a partir de um estado escrito.
 * **Drift (desvio)**: A diferença entre o entendimento do agente e o estado real do repositório de código. Cada troca de sessão introduz algum nível de desvio; sem controle, esse efeito se acumula ao longo do tempo.
 * **Ansiedade de contexto** (*context anxiety*): Fenômeno observado pela Anthropic em que agentes passam a acelerar a conclusão de tarefas ao perceberem que o limite de contexto está próximo. Eles encerram atividades prematuramente para evitar perda de informação. Em essência, trata-se de uma ansiedade irracional relacionada ao consumo de recursos.
 * **Compactação versus reinicialização** (*compaction vs. reset*): A compactação resume informações dentro da mesma sessão (preservando o "o quê", mas potencialmente perdendo o "porquê"). A reinicialização inicia uma nova sessão a partir de artefatos persistidos (ambiente mais limpo, mas dependente da qualidade e completude desses artefatos).
@@ -141,22 +141,22 @@ Os dados reais da Anthropic mostram que, para o Sonnet 4.5, a ansiedade de conte
 
 > Fonte: [Anthropic — *Harness design for long-running application development*](https://www.anthropic.com/engineering/harness-design-long-running-apps)
 
-## Exemplo do Mundo Real
+## Anthropic: continuidade entre sessões de programação
 
-Um agente recebeu a tarefa de implementar um sistema de blog com autenticação de usuários — 12 pontos de funcionalidade, com estimativa de 5 sessões necessárias.
+A Anthropic descreve uma réplica do site Claude cujo agente inicializador definiu mais de 200 funcionalidades, inicialmente marcadas como não aprovadas. Também criou init.sh, um arquivo de progresso e um commit inicial. Sessões posteriores liam o progresso e o histórico Git, implementavam funcionalidades gradualmente, verificavam o comportamento e deixavam atualizações.
 
-**Linha de base sem arquivos de persistência de estado**: Na sessão 1, foram implementados o modelo de usuário e as rotas básicas. Na sessão 2, o agente iniciou o trabalho sem se lembrar do contrato de interface do middleware de autenticação, gastando cerca de 15 minutos inferindo a intenção de design anterior. Na sessão 3, o desvio acumulado fez com que o agente começasse a reimplementar funcionalidades que já haviam sido concluídas. Na sessão 5, o repositório continha muito código redundante, mas a funcionalidade principal de autenticação ainda não havia passado nos testes end-to-end. Apenas 7 dos 12 pontos de funcionalidade foram concluídos, sendo que 3 apresentavam problemas ocultos de corretude.
+O caso documenta um mecanismo de continuidade, não os percentuais de conclusão, defeitos ou reconstrução anteriormente apresentados aqui. O código complementar é uma simulação didática, não uma medição do desempenho do modelo.
 
-**Com arquivos de persistência de estado**: Utilizando arquivos de progresso, registros de decisões, registros de verificação e checkpoints do Git. O relatório de estado era atualizado automaticamente ao final de cada sessão. O custo de reconstrução da sessão 2 caiu para cerca de 3 minutos. Ao final da sessão 5, todos os 12 pontos de funcionalidade haviam sido concluídos e verificados.
+[Anthropic](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
 
-Comparação quantitativa: o tempo de reconstrução foi reduzido em aproximadamente 78%, a taxa de conclusão de funcionalidades passou de 58% para 100% e a taxa de defeitos ocultos caiu de 43% para 8%.
+A LangChain relata aumento de 52,8% para 66,5%, 13,7 pontos percentuais, com o mesmo gpt-5.2-codex no Terminal Bench 2.0, de 89 tarefas. Mudou orientações de verificação, middleware e gestão de contexto. É um resultado conjunto de alterações do harness, não apenas dos arquivos de progresso. [LangChain: Improving Deep Agents](https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering)
 
 ## Principais Conclusões
 
 - Janelas de contexto são um recurso finito. Tarefas longas inevitavelmente se estenderão por múltiplas sessões, e as sessões perderão informações ao longo do tempo — essa é uma realidade objetiva.
 - A solução não é ter janelas de contexto maiores, mas sim uma melhor persistência de estado. Arquivos de progresso, registros de decisões e checkpoints do Git trabalham em conjunto para permitir que novas sessões retomem o trabalho de onde as anteriores pararam.
 - Trate o agente como um engenheiro cuja memória de curto prazo é apagada ao final de cada sessão: antes de “encerrar o expediente”, registre o que foi feito, por que foi feito e quais são os próximos passos.
-- O custo de reconstrução (*rebuild cost*) é a métrica principal. Um bom *harness* deve permitir que novas sessões retornem a um estado executável em até 3 minutos.
+- O custo de reconstrução (*rebuild cost*) é a métrica principal. Um bom *harness* deixa o progresso, os resultados de verificação e os próximos passos em arquivos, para que uma nova sessão se recupere rapidamente.
 - Estratégia híbrida: tarefas curtas dentro de uma mesma sessão; tarefas longas utilizando artefatos estruturados para garantir continuidade entre sessões.
 
 ## Leitura Complementar
@@ -166,6 +166,8 @@ Comparação quantitativa: o tempo de reconstrução foi reduzido em aproximadam
 - [Lost in the Middle: How Language Models Use Long Contexts](https://arxiv.org/abs/2307.03172)
 - [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code)
 - [HumanLayer: Harness Engineering for Coding Agents](https://www.humanlayer.dev/blog/skill-issue-harness-engineering-for-coding-agents)
+
+- [LangChain: Improving Deep Agents](https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering)
 
 ## Exercícios
 
